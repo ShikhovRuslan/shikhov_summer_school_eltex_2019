@@ -61,7 +61,7 @@ public class Main {
         mof.saveAll(orders);
         ordersRead1 = mof.readAll();
         ordersRead1.show();
-        order2Read = readById(order2.getId());
+        //order2Read = readById(order2.getId());
 
         System.out.println("\n\n---------------------ФОРМАТ JSON---------------------\n\n\n");
         ManagerOrderJSON moj = new ManagerOrderJSON(JSON_ORDERS);
