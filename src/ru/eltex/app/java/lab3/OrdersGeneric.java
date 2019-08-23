@@ -33,11 +33,21 @@ public class OrdersGeneric<T extends List<Order>, U extends Map<Date, Order>> {
     }
 
     void check() {
-        Iterator it = orders.iterator();
-        while (it.hasNext()) {
-            Order order = (Order) it.next();
+        Date date = null;
+        Iterator it1 = orders.iterator();
+        while (it1.hasNext()) {
+            Order order = (Order) it1.next();
             if (order.checkInterval(System.currentTimeMillis()) && order.getStatus() == OrderStatus.DONE) {
-                it.remove();
+                it1.remove();
+                date = order.getDateCreate();
+                dateOrder.remove(date);
+            }
+        }
+        Iterator it2 = orders.iterator();
+        while (it2.hasNext()) {
+            Order order = (Order) it2.next();
+            if (order.getDateCreate() == date) {
+                dateOrder.put(date, order);
             }
         }
     }

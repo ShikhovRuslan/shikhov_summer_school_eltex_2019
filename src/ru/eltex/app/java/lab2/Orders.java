@@ -13,12 +13,12 @@ public class Orders implements Serializable {
         dateOrder = new TreeMap<>();
     }
 
-    public void setDateOrder(Map<Date, Order> dateOrder) {
-        this.dateOrder = dateOrder;
-    }
-
     public List<Order> getOrders() {
         return orders;
+    }
+
+    public Map<Date, Order> getDateOrder() {
+        return dateOrder;
     }
 
     public void add(Order order) {
@@ -27,19 +27,20 @@ public class Orders implements Serializable {
     }
 
     public void remove(Order order) {
-        Iterator it;
-        it = orders.iterator();
-        while (it.hasNext()) {
-            if (order == it.next()) {
-                it.remove();
+        Date date = null;
+        Iterator it1 = orders.iterator();
+        while (it1.hasNext()) {
+            if (order == it1.next()) {
+                it1.remove();
+                date = order.getDateCreate();
+                dateOrder.remove(date);
             }
         }
-
-        it = dateOrder.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry entry = (Map.Entry) it.next();
-            if (entry.getValue() == order) {
-                it.remove();
+        Iterator it2 = orders.iterator();
+        while (it2.hasNext()) {
+            Order order2 = (Order) it2.next();
+            if (order2.getDateCreate() == date) {
+                dateOrder.put(date, order2);
             }
         }
     }
@@ -49,22 +50,34 @@ public class Orders implements Serializable {
     }
 
     void check() {
-        Iterator it = orders.iterator();
-        while (it.hasNext()) {
-            Order order = (Order) it.next();
-            if (order.checkInterval(System.currentTimeMillis()) && order.getStatus() == OrderStatus.DONE) {
-                it.remove();
+        ArrayList<Date> arrDate = new ArrayList<>();
+        Date date;
+        Iterator it1 = orders.iterator();
+        while (it1.hasNext()) {
+            Order order1 = (Order) it1.next();
+            if (order1.checkInterval(System.currentTimeMillis()) && order1.getStatus() == OrderStatus.DONE) {
+                it1.remove();
+                date = order1.getDateCreate();
+                dateOrder.remove(date);
+                arrDate.add(date);
+            }
+        }
+        Iterator it2 = orders.iterator();
+        while (it2.hasNext()) {
+            Order order2 = (Order) it2.next();
+            for (Date d : arrDate) {
+                if (order2.getDateCreate() == d) {
+                    dateOrder.put(d, order2);
+                }
             }
         }
     }
 
     public void showStatusesOfOrders() {
-        Iterator it = orders.iterator();
-        if (!it.hasNext()) {
+        if (orders.size() == 0) {
             System.out.print("no orders");
         }
-        while (it.hasNext()) {
-            Order order = (Order) it.next();
+        for (Order order : orders) {
             if (order.getStatus() == OrderStatus.WAITING) {
                 System.out.print("w");
             } else {
@@ -75,12 +88,10 @@ public class Orders implements Serializable {
     }
 
     public void checkTime() {
-        Iterator it = orders.iterator();
-        if (!it.hasNext()) {
+        if (orders.size() == 0) {
             System.out.println("no orders for checking time");
         }
-        while (it.hasNext()) {
-            Order order = (Order) it.next();
+        for (Order order : orders) {
             if (order.getStatus() == OrderStatus.WAITING) {
                 order.setStatus(OrderStatus.DONE);
                 System.out.print("check time: status change     ");
@@ -93,18 +104,32 @@ public class Orders implements Serializable {
     }
 
     public void checkDone() {
-        Iterator it = orders.iterator();
-        if (!it.hasNext()) {
+        if (orders.size() == 0) {
             System.out.println("no orders for checking done");
         }
-        while (it.hasNext()) {
-            Order order = (Order) it.next();
-            if (order.getStatus() == OrderStatus.DONE) {
-                it.remove();
+        ArrayList<Date> arrDate = new ArrayList<>();
+        Date date;
+        Iterator it1 = orders.iterator();
+        while (it1.hasNext()) {
+            Order order1 = (Order) it1.next();
+            if (order1.getStatus() == OrderStatus.DONE) {
+                it1.remove();
+                date = order1.getDateCreate();
+                dateOrder.remove(date);
+                arrDate.add(date);
                 System.out.print("check done: removing     ");
                 showStatusesOfOrders();
             } else {
                 System.out.println("check done: no removing");
+            }
+        }
+        Iterator it2 = orders.iterator();
+        while (it2.hasNext()) {
+            Order order2 = (Order) it2.next();
+            for (Date d : arrDate) {
+                if (order2.getDateCreate() == d) {
+                    dateOrder.put(d, order2);
+                }
             }
         }
         System.out.println("");

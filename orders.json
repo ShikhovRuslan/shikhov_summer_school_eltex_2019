@@ -2,108 +2,161 @@
   "orders": [
     {
       "status": "WAITING",
-      "dateCreate": "авг 23, 2019",
-      "timeWaiting": 13640,
+      "dateCreate": "авг 24, 2019",
+      "timeWaiting": 16157,
       "cart": {
         "products": [
           {
-            "type": "CLASSICAL",
-            "id": "e226e61e-ecd9-435c-971c-656c651dc92e",
-            "name": "n3",
-            "price": 445.0,
-            "firm": "f2",
+            "typeSim": "MICRO_SIM",
+            "numberSim": 3,
+            "id": "e6bdbbfc-b15e-428b-ad33-e8611bbe5b91",
+            "name": "n2",
+            "price": 19.5,
+            "firm": "f3",
             "model": "m2",
-            "os": "os2"
-          },
+            "os": "os1"
+          }
+        ],
+        "ids": [
+          "e6bdbbfc-b15e-428b-ad33-e8611bbe5b91"
+        ]
+      },
+      "user": {
+        "id": "06a713eb-e228-40be-95e0-1c2a63078810",
+        "surname": "surname2",
+        "name": "name2",
+        "patronymic": "patronymic3",
+        "email": "email2"
+      },
+      "id": "6df05c39-7be1-48a9-9e38-36c922e87a61"
+    },
+    {
+      "status": "WAITING",
+      "dateCreate": "авг 24, 2019",
+      "timeWaiting": 10955,
+      "cart": {
+        "products": [
           {
             "videoProcessor": "vp1",
             "screenResolution": {
               "width": 550,
               "height": 220
             },
-            "id": "a555ba7c-1a9d-4f74-beef-d37381477074",
-            "name": "n1",
-            "price": 19.5,
+            "id": "7b26c205-43ae-44ae-9494-cfbd60505d5a",
+            "name": "n2",
+            "price": 0.02,
             "firm": "f1",
-            "model": "m1",
-            "os": "os3"
+            "model": "m3",
+            "os": "os1"
           }
         ],
         "ids": [
-          "e226e61e-ecd9-435c-971c-656c651dc92e",
-          "a555ba7c-1a9d-4f74-beef-d37381477074"
+          "7b26c205-43ae-44ae-9494-cfbd60505d5a"
         ]
       },
       "user": {
-        "id": "6c99ca8f-4e62-4002-9dcb-ab9f17edebc4",
+        "id": "4c39c0b4-0c20-4f0f-8586-175b8180ccfc",
         "surname": "surname1",
+        "name": "name3",
+        "patronymic": "patronymic2",
+        "email": "email1"
+      },
+      "id": "f36dd452-0564-4571-bf7c-fff29ccd3e72"
+    },
+    {
+      "status": "WAITING",
+      "dateCreate": "авг 24, 2019",
+      "timeWaiting": 19206,
+      "cart": {
+        "products": [
+          {
+            "typeSim": "USUAL",
+            "numberSim": 3,
+            "id": "ce7578b6-df05-44ad-b48a-cfa46075fefa",
+            "name": "n2",
+            "price": 445.0,
+            "firm": "f3",
+            "model": "m2",
+            "os": "os2"
+          }
+        ],
+        "ids": [
+          "ce7578b6-df05-44ad-b48a-cfa46075fefa"
+        ]
+      },
+      "user": {
+        "id": "a1e68bf2-21a3-437b-a568-20b60bd7945b",
+        "surname": "surname3",
         "name": "name2",
         "patronymic": "patronymic2",
         "email": "email3"
       },
-      "id": "e00967bc-9617-471c-ae2d-d4012c3aee0b"
-    },
-    {
-      "status": "WAITING",
-      "dateCreate": "авг 23, 2019",
-      "timeWaiting": 12899,
-      "cart": {
-        "products": [
-          {
-            "typeSim": "USUAL",
-            "numberSim": 3,
-            "id": "9fe680f2-6b49-4b8e-ae2b-a3be0dde0431",
-            "name": "n2",
-            "price": 19.5,
-            "firm": "f2",
-            "model": "m1",
-            "os": "os2"
-          }
-        ],
-        "ids": [
-          "9fe680f2-6b49-4b8e-ae2b-a3be0dde0431"
-        ]
-      },
-      "user": {
-        "id": "68496744-d111-4d08-b877-896b368e6853",
-        "surname": "surname1",
-        "name": "name3",
-        "patronymic": "patronymic2",
-        "email": "email3"
-      },
-      "id": "c7df3f89-2a82-41e2-a3cb-91816590f3d8"
+      "id": "10f9392a-82c4-429c-836a-adb8d7096817"
     }
   ],
   "dateOrder": {
-    "2019-08-23": {
+    "2019-08-24": {
       "status": "WAITING",
-      "dateCreate": "авг 23, 2019",
-      "timeWaiting": 12899,
+      "dateCreate": "авг 24, 2019",
+      "timeWaiting": 10955,
+      "cart": {
+        "products": [
+          {
+            "videoProcessor": "vp1",
+            "screenResolution": {
+              "width": 550,
+              "height": 220
+            },
+            "id": "7b26c205-43ae-44ae-9494-cfbd60505d5a",
+            "name": "n2",
+            "price": 0.02,
+            "firm": "f1",
+            "model": "m3",
+            "os": "os1"
+          }
+        ],
+        "ids": [
+          "7b26c205-43ae-44ae-9494-cfbd60505d5a"
+        ]
+      },
+      "user": {
+        "id": "4c39c0b4-0c20-4f0f-8586-175b8180ccfc",
+        "surname": "surname1",
+        "name": "name3",
+        "patronymic": "patronymic2",
+        "email": "email1"
+      },
+      "id": "f36dd452-0564-4571-bf7c-fff29ccd3e72"
+    },
+    "2019-08-24": {
+      "status": "WAITING",
+      "dateCreate": "авг 24, 2019",
+      "timeWaiting": 19206,
       "cart": {
         "products": [
           {
             "typeSim": "USUAL",
             "numberSim": 3,
-            "id": "9fe680f2-6b49-4b8e-ae2b-a3be0dde0431",
+            "id": "ce7578b6-df05-44ad-b48a-cfa46075fefa",
             "name": "n2",
-            "price": 19.5,
-            "firm": "f2",
-            "model": "m1",
+            "price": 445.0,
+            "firm": "f3",
+            "model": "m2",
             "os": "os2"
           }
         ],
         "ids": [
-          "9fe680f2-6b49-4b8e-ae2b-a3be0dde0431"
+          "ce7578b6-df05-44ad-b48a-cfa46075fefa"
         ]
       },
       "user": {
-        "id": "68496744-d111-4d08-b877-896b368e6853",
-        "surname": "surname1",
-        "name": "name3",
+        "id": "a1e68bf2-21a3-437b-a568-20b60bd7945b",
+        "surname": "surname3",
+        "name": "name2",
         "patronymic": "patronymic2",
         "email": "email3"
       },
-      "id": "c7df3f89-2a82-41e2-a3cb-91816590f3d8"
+      "id": "10f9392a-82c4-429c-836a-adb8d7096817"
     }
   }
 }

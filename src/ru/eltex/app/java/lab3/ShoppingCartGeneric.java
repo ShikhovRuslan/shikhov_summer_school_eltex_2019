@@ -79,31 +79,36 @@ public class ShoppingCartGeneric<T extends List<Device>, U extends Set<UUID>> {
      */
     void delete(int type) {
         boolean isDeleted = false;
+        Device device;
         Iterator it = products.iterator();
         while (it.hasNext() && !isDeleted) {
+            device = (Device) it.next();
             switch (type) {
                 case (1):
-                    if (it.next() instanceof Phone) {
+                    if (device instanceof Phone) {
                         it.remove();
+                        ids.remove(device.getId());
                         isDeleted = true;
                     }
                     break;
                 case (2):
-                    if (it.next() instanceof Smartphone) {
+                    if (device instanceof Smartphone) {
                         it.remove();
+                        ids.remove(device.getId());
                         isDeleted = true;
                     }
                     break;
                 case (3):
-                    if (it.next() instanceof Tablet) {
+                    if (device instanceof Tablet) {
                         it.remove();
+                        ids.remove(device.getId());
                         isDeleted = true;
                     }
                     break;
             }
         }
         if (!isDeleted) {
-            System.out.println("Объект, подлежащий удалению, не найден!");
+            System.out.println("Объект, подлежащий удалению, не найден!\n");
         }
     }
 

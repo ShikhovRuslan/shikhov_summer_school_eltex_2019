@@ -8,6 +8,8 @@ import ru.eltex.app.java.lab2.Order;
 import ru.eltex.app.java.lab2.Orders;
 import ru.eltex.app.java.lab2.ShoppingCart;
 
+import java.util.UUID;
+
 public class Main {
 
     static final String FILE_ORDERS = "/home/ruslan/summer_school_2019/labs_java/orders.ser";
@@ -15,26 +17,22 @@ public class Main {
 
     public static void main(String[] args) {
         Orders orders = new Orders();
-        Orders ordersRead1;
-        Orders ordersRead2;
-        Order order0, order1, order2;
-        ShoppingCart cart0 = new ShoppingCart();
+        Orders ordersReadMof, ordersReadMoj;
+        Order order2ReadMof, order2ReadMoj, orderRandomReadMof, orderRandomReadMoj;
+        UUID idRandom = UUID.randomUUID();
         ShoppingCart cart1 = new ShoppingCart();
         ShoppingCart cart2 = new ShoppingCart();
-        Credentials user0 = new Credentials();
+        ShoppingCart cart3 = new ShoppingCart();
+        ShoppingCart cart4 = new ShoppingCart();
         Credentials user1 = new Credentials();
         Credentials user2 = new Credentials();
-        user0.create();
+        Credentials user3 = new Credentials();
+        Credentials user4 = new Credentials();
         user1.create();
         user2.create();
+        user3.create();
+        user4.create();
 
-
-        Tablet tablet0 = new Tablet();
-        tablet0.create();
-        user0.create();
-        cart0.add(tablet0);
-
-        order0 = new Order(cart0, user0);
 
         Phone phone1 = new Phone();
         phone1.create();
@@ -48,26 +46,56 @@ public class Main {
         smartphone2.create();
         cart2.add(smartphone2);
 
-        order1 = new Order(cart1, user1);
-        order2 = new Order(cart2, user2);
+        Tablet tablet3 = new Tablet();
+        tablet3.create();
+        cart3.add(tablet3);
+
+        Smartphone smartphone4 = new Smartphone();
+        smartphone4.create();
+        cart4.add(smartphone4);
+
+
+        Order order1 = new Order(cart1, user1);
+        Order order2 = new Order(cart2, user2);
         orders.add(order1);
         orders.add(order2);
 
+        Order orderInstead1 = new Order(cart3, user3);
+        orderInstead1.setId(order1.getId());
+
+        Order orderWithNewId = new Order(cart4, user4);
+
 
         orders.show();
+        System.out.println("\n\n");
+
+        orderInstead1.show();
+        System.out.println("\n\n");
+        orderWithNewId.show();
 
         System.out.println("\n\n--------------------ДВОИЧНЫЙ ФАЙЛ--------------------\n\n\n");
         ManagerOrderFile mof = new ManagerOrderFile(FILE_ORDERS);
         mof.saveAll(orders);
-        ordersRead1 = mof.readAll();
-        ordersRead1.show();
-        //order2Read = readById(order2.getId());
+        order2ReadMof = mof.readById(order2.getId());
+        order2ReadMof.show();
+        orderRandomReadMof = mof.readById(idRandom);
+        System.out.println("\n\n");
+        mof.saveById(orderInstead1);
+        mof.saveById(orderWithNewId);
+        ordersReadMof = mof.readAll();
+        ordersReadMof.show();
 
         System.out.println("\n\n---------------------ФОРМАТ JSON---------------------\n\n\n");
         ManagerOrderJSON moj = new ManagerOrderJSON(JSON_ORDERS);
         moj.saveAll(orders);
-        ordersRead2 = moj.readAll();
-        ordersRead2.show();
+        order2ReadMoj = moj.readById(order2.getId());
+        order2ReadMoj.show();
+        orderRandomReadMoj = moj.readById(idRandom);
+        System.out.println("\n\n");
+        moj.saveById(orderInstead1);
+        moj.saveById(orderWithNewId);
+        ordersReadMoj = moj.readAll();
+        ordersReadMoj.show();
     }
 
 }

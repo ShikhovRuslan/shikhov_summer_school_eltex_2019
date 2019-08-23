@@ -5,8 +5,8 @@ import ru.eltex.app.java.lab2.Orders;
 public class Main {
 
     static final long PAUSE_GENERATOR = 700; // 700
-    static final double COEFF_PAUSE_CHECK_TIME = 0.75; // 0.75
-    static final double COEFF_PAUSE_CHECK_DONE = 0.25; // 0.25
+    static final double COEFF_PAUSE_CHECK_TIME = 1.5; // 0.75
+    static final double COEFF_PAUSE_CHECK_DONE = 0.9; // 0.25
 
     public static void main(String[] args) {
         Orders orders = new Orders();
@@ -35,9 +35,6 @@ public class Main {
         gen2.stop();
         checkTime.stop();
         checkDone.stop();
-
-        //System.out.println("\n\n------------------------------");
-        //orders.show();
     }
 
 }

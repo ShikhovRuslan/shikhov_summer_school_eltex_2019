@@ -10,40 +10,42 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) {
-        Credentials user = new Credentials("создание пользователя");
+        // создание пользователя
+        Credentials user = new Credentials("создание пользователя\n");
         user.create();
 
-//        LinkedList<Device> products = new LinkedList<>();
-//        HashSet<UUID> ids = new HashSet<>();
-//        ShoppingCartGeneric<LinkedList<Device>, HashSet<UUID>> cartGeneric = new ShoppingCartGeneric<>(products, ids);
-//        cartGeneric.create();
-
+        // создание корзины
         ArrayList<Device> products = new ArrayList<>();
         HashSet<UUID> ids = new HashSet<>();
-        ShoppingCartGeneric<ArrayList<Device>, HashSet<UUID>> cartGeneric = new ShoppingCartGeneric<>(products, ids);
-        cartGeneric.create();
+        ShoppingCartGeneric<ArrayList<Device>, HashSet<UUID>> gCart = new ShoppingCartGeneric<>(products, ids);
+        gCart.create();
 
         ArrayList<Order> orders = new ArrayList<>();
         TreeMap<Date, Order> dateOrder = new TreeMap<>();
-        OrdersGeneric<ArrayList<Order>, TreeMap<Date, Order>> ordersGeneric = new OrdersGeneric<>(orders, dateOrder);
+        OrdersGeneric<ArrayList<Order>, TreeMap<Date, Order>> gOrders = new OrdersGeneric<>(orders, dateOrder);
 
-        cartGeneric.delete(1);
+        // удаление телефона из корзины
+        System.out.println("");
+        gCart.delete(1);
 
-        ordersGeneric.makePurchase(cartGeneric, user);
-        ordersGeneric.show();
-        ordersGeneric.getOrders().get(0).setStatus(OrderStatus.DONE);
-        ordersGeneric.show();
-        ordersGeneric.check();
-        ordersGeneric.show();
+        // оформление покупки
+        gOrders.makePurchase(gCart, user);
+        gOrders.show();
 
+        // изменение статуса заказа
+        gOrders.getOrders().get(0).setStatus(OrderStatus.DONE);
+        gOrders.show();
+
+        // проверка заказов
+        gOrders.check();
+        gOrders.show();
+
+        // добавление телефона в корзину
         Phone phone = new Phone();
-        cartGeneric.add(phone);
-        cartGeneric.show();
-
-//        LinkedList<Device> products2 = new LinkedList<>();
-//        HashSet<UUID> ids2 = new HashSet<>();
-//        ShoppingCartGeneric<LinkedList<Device>, HashSet<UUID>> cartGeneric2 = new ShoppingCartGeneric<>(products2, ids2);
-//        cartGeneric.create();
+        phone.create();
+        gCart.add(phone);
+        System.out.println("");
+        gCart.show();
     }
 
 }

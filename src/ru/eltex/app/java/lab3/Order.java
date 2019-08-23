@@ -17,14 +17,10 @@ public class Order {
     private ShoppingCartGeneric cart;
     private Credentials user;
 
-    public Order() {
-
-    }
-
     <T extends List<Device>, U extends Set<UUID>> Order(ShoppingCartGeneric<T, U> cart, Credentials user) {
         status = OrderStatus.WAITING;
         dateCreate = new Date(System.currentTimeMillis());
-        timeWaiting = (long) (Math.random());
+        timeWaiting = (long) (Math.random() * 3);
         this.cart = cart;
         this.user = user;
     }
