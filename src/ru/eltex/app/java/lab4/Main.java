@@ -4,9 +4,9 @@ import ru.eltex.app.java.lab2.Orders;
 
 public class Main {
 
-    static final long PAUSE_GENERATOR = 700; // 700
-    static final double COEFF_PAUSE_CHECK_TIME = 1.5; // 0.75
-    static final double COEFF_PAUSE_CHECK_DONE = 0.9; // 0.25
+    private static final long PAUSE_GENERATOR = 700; // 700
+    private static final double COEFF_PAUSE_CHECK_TIME = 1.5; // 0.75
+    private static final double COEFF_PAUSE_CHECK_DONE = 0.9; // 0.25
 
     public static void main(String[] args) {
         Orders orders = new Orders();
