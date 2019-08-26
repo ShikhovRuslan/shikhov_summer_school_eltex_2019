@@ -3,32 +3,65 @@
     {
       "status": "WAITING",
       "dateCreate": "авг 26, 2019",
-      "timeWaiting": 2,
+      "timeWaiting": 0,
       "cart": {
         "products": [
           {
-            "typeSim": "MICRO_SIM",
+            "typeSim": "USUAL",
             "numberSim": 3,
-            "id": "81eaf3d6-d3d0-41fd-88c3-2079b6cf7ef3",
-            "name": "n1",
-            "price": 445.0,
-            "firm": "f2",
-            "model": "m3",
+            "id": "4e852114-ba9d-442a-8601-9be8a333c1e4",
+            "name": "n2",
+            "price": 19.5,
+            "firm": "f1",
+            "model": "m1",
             "os": "os1"
           }
         ],
         "ids": [
-          "81eaf3d6-d3d0-41fd-88c3-2079b6cf7ef3"
+          "4e852114-ba9d-442a-8601-9be8a333c1e4"
         ]
       },
       "user": {
-        "id": "c573f4f3-9fd5-4e97-8d3c-4f558f853fa3",
+        "id": "daf8f59f-c0d8-41fe-99d1-d68721121b17",
         "surname": "surname1",
-        "name": "name1",
-        "patronymic": "patronymic2",
+        "name": "name3",
+        "patronymic": "patronymic3",
         "email": "email2"
       },
-      "id": "0da07aa2-1326-4e57-aeef-64dba5878dcb"
+      "id": "9d8eb7c2-c517-4949-968f-91066a54ed57"
+    },
+    {
+      "status": "WAITING",
+      "dateCreate": "авг 26, 2019",
+      "timeWaiting": 1,
+      "cart": {
+        "products": [
+          {
+            "videoProcessor": "vp3",
+            "screenResolution": {
+              "width": 450,
+              "height": 320
+            },
+            "id": "e58c4bac-0b18-4455-8716-7d1fbf7e5da4",
+            "name": "n1",
+            "price": 0.02,
+            "firm": "f1",
+            "model": "m1",
+            "os": "os3"
+          }
+        ],
+        "ids": [
+          "e58c4bac-0b18-4455-8716-7d1fbf7e5da4"
+        ]
+      },
+      "user": {
+        "id": "bfab2cb9-1659-4af4-8b95-98b18026da54",
+        "surname": "surname3",
+        "name": "name3",
+        "patronymic": "patronymic2",
+        "email": "email1"
+      },
+      "id": "19710b8d-bb77-42b9-b2ce-8ddde843b4f5"
     },
     {
       "status": "WAITING",
@@ -37,126 +70,93 @@
       "cart": {
         "products": [
           {
-            "videoProcessor": "vp1",
-            "screenResolution": {
-              "width": 450,
-              "height": 220
-            },
-            "id": "b637ea61-8094-4758-81a4-e9eae204d9b3",
-            "name": "n1",
+            "typeSim": "MICRO_SIM",
+            "numberSim": 1,
+            "id": "5cbc8715-a4e4-4b0d-b718-431c2385211c",
+            "name": "n2",
             "price": 0.02,
-            "firm": "f3",
-            "model": "m1",
+            "firm": "f2",
+            "model": "m2",
             "os": "os1"
           }
         ],
         "ids": [
-          "b637ea61-8094-4758-81a4-e9eae204d9b3"
+          "5cbc8715-a4e4-4b0d-b718-431c2385211c"
         ]
       },
       "user": {
-        "id": "13970e47-4fb0-4706-a5c1-623da25167d5",
-        "surname": "surname3",
-        "name": "name1",
-        "patronymic": "patronymic1",
+        "id": "1f086510-6e9d-43ba-8278-9ec29ccbacba",
+        "surname": "surname1",
+        "name": "name2",
+        "patronymic": "patronymic2",
         "email": "email3"
       },
-      "id": "fc6a29f5-3aca-494f-a22a-db38ca76161b"
-    },
-    {
-      "status": "WAITING",
-      "dateCreate": "авг 26, 2019",
-      "timeWaiting": 2,
-      "cart": {
-        "products": [
-          {
-            "typeSim": "MICRO_SIM",
-            "numberSim": 1,
-            "id": "36ba0af5-87c6-4b1a-9fb7-bb879e070e07",
-            "name": "n3",
-            "price": 445.0,
-            "firm": "f3",
-            "model": "m1",
-            "os": "os2"
-          }
-        ],
-        "ids": [
-          "36ba0af5-87c6-4b1a-9fb7-bb879e070e07"
-        ]
-      },
-      "user": {
-        "id": "ca5350a6-81d8-4e0e-8080-b8e8fc89b029",
-        "surname": "surname2",
-        "name": "name2",
-        "patronymic": "patronymic3",
-        "email": "email1"
-      },
-      "id": "01249d7f-7a3d-4fcc-8004-5e2ad88fdd4c"
+      "id": "6607215a-f364-4c0d-b3ae-be1914d2d326"
     }
   ],
   "dateOrder": {
     "2019-08-26": {
       "status": "WAITING",
       "dateCreate": "авг 26, 2019",
-      "timeWaiting": 0,
+      "timeWaiting": 1,
       "cart": {
         "products": [
           {
-            "videoProcessor": "vp1",
+            "videoProcessor": "vp3",
             "screenResolution": {
               "width": 450,
-              "height": 220
+              "height": 320
             },
-            "id": "b637ea61-8094-4758-81a4-e9eae204d9b3",
+            "id": "e58c4bac-0b18-4455-8716-7d1fbf7e5da4",
             "name": "n1",
             "price": 0.02,
-            "firm": "f3",
+            "firm": "f1",
             "model": "m1",
-            "os": "os1"
+            "os": "os3"
           }
         ],
         "ids": [
-          "b637ea61-8094-4758-81a4-e9eae204d9b3"
+          "e58c4bac-0b18-4455-8716-7d1fbf7e5da4"
         ]
       },
       "user": {
-        "id": "13970e47-4fb0-4706-a5c1-623da25167d5",
+        "id": "bfab2cb9-1659-4af4-8b95-98b18026da54",
         "surname": "surname3",
-        "name": "name1",
-        "patronymic": "patronymic1",
-        "email": "email3"
+        "name": "name3",
+        "patronymic": "patronymic2",
+        "email": "email1"
       },
-      "id": "fc6a29f5-3aca-494f-a22a-db38ca76161b"
+      "id": "19710b8d-bb77-42b9-b2ce-8ddde843b4f5"
     },
     "2019-08-26": {
       "status": "WAITING",
       "dateCreate": "авг 26, 2019",
-      "timeWaiting": 2,
+      "timeWaiting": 0,
       "cart": {
         "products": [
           {
             "typeSim": "MICRO_SIM",
             "numberSim": 1,
-            "id": "36ba0af5-87c6-4b1a-9fb7-bb879e070e07",
-            "name": "n3",
-            "price": 445.0,
-            "firm": "f3",
-            "model": "m1",
-            "os": "os2"
+            "id": "5cbc8715-a4e4-4b0d-b718-431c2385211c",
+            "name": "n2",
+            "price": 0.02,
+            "firm": "f2",
+            "model": "m2",
+            "os": "os1"
           }
         ],
         "ids": [
-          "36ba0af5-87c6-4b1a-9fb7-bb879e070e07"
+          "5cbc8715-a4e4-4b0d-b718-431c2385211c"
         ]
       },
       "user": {
-        "id": "ca5350a6-81d8-4e0e-8080-b8e8fc89b029",
-        "surname": "surname2",
+        "id": "1f086510-6e9d-43ba-8278-9ec29ccbacba",
+        "surname": "surname1",
         "name": "name2",
-        "patronymic": "patronymic3",
-        "email": "email1"
+        "patronymic": "patronymic2",
+        "email": "email3"
       },
-      "id": "01249d7f-7a3d-4fcc-8004-5e2ad88fdd4c"
+      "id": "6607215a-f364-4c0d-b3ae-be1914d2d326"
     }
   }
 }
