@@ -4,9 +4,9 @@ import ru.eltex.app.java.lab1.Phone;
 import ru.eltex.app.java.lab1.Smartphone;
 import ru.eltex.app.java.lab1.Tablet;
 import ru.eltex.app.java.lab2.Credentials;
-import ru.eltex.app.java.lab2.Order;
+import ru.eltex.app.java.lab3.Order;
 import ru.eltex.app.java.lab2.Orders;
-import ru.eltex.app.java.lab2.ShoppingCart;
+import ru.eltex.app.java.lab3.ShoppingCart;
 import ru.eltex.app.java.lab5.ManagerOrderFile;
 
 import java.io.DataInputStream;

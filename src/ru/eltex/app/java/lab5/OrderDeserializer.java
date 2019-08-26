@@ -2,9 +2,9 @@ package ru.eltex.app.java.lab5;
 
 import com.google.gson.*;
 import ru.eltex.app.java.lab2.Credentials;
-import ru.eltex.app.java.lab2.Order;
+import ru.eltex.app.java.lab3.Order;
 import ru.eltex.app.java.lab2.OrderStatus;
-import ru.eltex.app.java.lab2.ShoppingCart;
+import ru.eltex.app.java.lab3.ShoppingCart;
 
 import java.lang.reflect.Type;
 import java.sql.Date;

@@ -5,14 +5,22 @@ import ru.eltex.app.java.lab1.Phone;
 import ru.eltex.app.java.lab1.Smartphone;
 import ru.eltex.app.java.lab1.Tablet;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class ShoppingCartGeneric<T extends List<Device>, U extends Set<UUID>> {
+public class ShoppingCart<T extends List<Device>, U extends Set<UUID>> implements Serializable {
 
     private T products;
     private U ids;
 
-    ShoppingCartGeneric(T products, U ids) {
+    public ShoppingCart() {
+        List<Device> products = new LinkedList<>();
+        Set<UUID> ids = new HashSet<>();
+        this.products= (T) products;
+        this.ids = (U) ids;
+    }
+
+    public ShoppingCart(T products, U ids) {
         this.products = products;
         this.ids = ids;
         for (Device device : products) {
@@ -28,7 +36,7 @@ public class ShoppingCartGeneric<T extends List<Device>, U extends Set<UUID>> {
         return ids.contains(id);
     }
 
-    boolean add(Device device) {
+    public boolean add(Device device) {
         ids.add(device.getId());
         return products.add(device);
     }

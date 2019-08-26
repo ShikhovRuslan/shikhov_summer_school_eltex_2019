@@ -2,7 +2,7 @@ package ru.eltex.app.java.lab5;
 
 import com.google.gson.*;
 import ru.eltex.app.java.lab1.Device;
-import ru.eltex.app.java.lab2.ShoppingCart;
+import ru.eltex.app.java.lab3.ShoppingCart;
 
 import java.lang.reflect.Type;
 import java.util.Map;

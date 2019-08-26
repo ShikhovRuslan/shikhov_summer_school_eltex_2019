@@ -1,14 +1,15 @@
 package ru.eltex.app.java.lab5;
 
+import ru.eltex.app.java.lab1.Device;
 import ru.eltex.app.java.lab1.Phone;
 import ru.eltex.app.java.lab1.Smartphone;
 import ru.eltex.app.java.lab1.Tablet;
 import ru.eltex.app.java.lab2.Credentials;
-import ru.eltex.app.java.lab2.Order;
-import ru.eltex.app.java.lab2.Orders;
-import ru.eltex.app.java.lab2.ShoppingCart;
+import ru.eltex.app.java.lab3.Order;
+import ru.eltex.app.java.lab3.Orders;
+import ru.eltex.app.java.lab3.ShoppingCart;
 
-import java.util.UUID;
+import java.util.*;
 
 public class Main {
 
@@ -16,14 +17,14 @@ public class Main {
     static final String JSON_ORDERS = "/home/ruslan/summer_school_2019/labs_java/orders.json";
 
     public static void main(String[] args) {
-        Orders orders = new Orders();
-        Orders ordersReadMof, ordersReadMoj;
-        Order order2ReadMof, order2ReadMoj, orderRandomReadMof, orderRandomReadMoj;
+        Orders<LinkedList<Order>, HashMap<Date, Order>> orders = new Orders<>();
+        Orders<LinkedList<Order>, HashMap<Date, Order>> ordersReadMof, ordersReadMoj;
+        Order order2ReadMof, order2ReadMoj, orderRandomReadMof, orderRandomReadMoj, order1, order2, orderInstead1, orderWithNewId;
         UUID idRandom = UUID.randomUUID();
-        ShoppingCart cart1 = new ShoppingCart();
-        ShoppingCart cart2 = new ShoppingCart();
-        ShoppingCart cart3 = new ShoppingCart();
-        ShoppingCart cart4 = new ShoppingCart();
+        ShoppingCart<ArrayList<Device>, TreeSet<UUID>> cart1 = new ShoppingCart();
+        ShoppingCart<ArrayList<Device>, TreeSet<UUID>> cart2 = new ShoppingCart();
+        ShoppingCart<ArrayList<Device>, TreeSet<UUID>> cart3 = new ShoppingCart();
+        ShoppingCart<ArrayList<Device>, TreeSet<UUID>> cart4 = new ShoppingCart();
         Credentials user1 = new Credentials();
         Credentials user2 = new Credentials();
         Credentials user3 = new Credentials();
@@ -55,15 +56,15 @@ public class Main {
         cart4.add(smartphone4);
 
 
-        Order order1 = new Order(cart1, user1);
-        Order order2 = new Order(cart2, user2);
+        order1 = new Order(cart1, user1);
+        order2 = new Order(cart2, user2);
         orders.add(order1);
         orders.add(order2);
 
-        Order orderInstead1 = new Order(cart3, user3);
+        orderInstead1 = new Order(cart3, user3);
         orderInstead1.setId(order1.getId());
 
-        Order orderWithNewId = new Order(cart4, user4);
+        orderWithNewId = new Order(cart4, user4);
 
 
         orders.show();

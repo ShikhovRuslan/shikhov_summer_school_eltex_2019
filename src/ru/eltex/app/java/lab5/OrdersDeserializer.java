@@ -1,8 +1,8 @@
 package ru.eltex.app.java.lab5;
 
 import com.google.gson.*;
-import ru.eltex.app.java.lab2.Order;
-import ru.eltex.app.java.lab2.Orders;
+import ru.eltex.app.java.lab3.Order;
+import ru.eltex.app.java.lab3.Orders;
 
 import java.lang.reflect.Type;
 import java.util.Map;

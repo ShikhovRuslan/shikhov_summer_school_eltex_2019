@@ -1,10 +1,11 @@
 package ru.eltex.app.java.lab5;
 
-import ru.eltex.app.java.lab2.Order;
-import ru.eltex.app.java.lab2.Orders;
+import ru.eltex.app.java.lab3.Order;
+import ru.eltex.app.java.lab3.Orders;
 
 import java.sql.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.UUID;
 
 public abstract class AManageOrder implements IOrder {
@@ -43,7 +44,7 @@ public abstract class AManageOrder implements IOrder {
         Orders ordersRead = readAll();
         Order order = new Order();
         boolean isFound = false;
-        for (Order ord : ordersRead.getOrders()) {
+        for (Order ord : (List<Order>) ordersRead.getOrders()) {
             if (ord.getId().equals(id)) {
                 order = ord;
                 isFound = true;

@@ -17,12 +17,12 @@ public class Main {
         // создание корзины
         ArrayList<Device> products = new ArrayList<>();
         HashSet<UUID> ids = new HashSet<>();
-        ShoppingCartGeneric<ArrayList<Device>, HashSet<UUID>> gCart = new ShoppingCartGeneric<>(products, ids);
+        ShoppingCart<ArrayList<Device>, HashSet<UUID>> gCart = new ShoppingCart<>(products, ids);
         gCart.create();
 
         ArrayList<Order> orders = new ArrayList<>();
         TreeMap<Date, Order> dateOrder = new TreeMap<>();
-        OrdersGeneric<ArrayList<Order>, TreeMap<Date, Order>> gOrders = new OrdersGeneric<>(orders, dateOrder);
+        Orders<ArrayList<Order>, TreeMap<Date, Order>> gOrders = new Orders<>(orders, dateOrder);
 
         // удаление телефона из корзины
         System.out.println("");

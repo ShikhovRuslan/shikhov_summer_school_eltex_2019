@@ -4,14 +4,22 @@ import ru.eltex.app.java.lab1.Device;
 import ru.eltex.app.java.lab2.Credentials;
 import ru.eltex.app.java.lab2.OrderStatus;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class OrdersGeneric<T extends List<Order>, U extends Map<Date, Order>> {
+public class Orders<T extends List<Order>, U extends Map<Date, Order>> implements Serializable {
 
     private T orders;
     private U dateOrder;
 
-    OrdersGeneric(T orders, U dateOrder) {
+    public Orders() {
+        List<Order> orders = new ArrayList<>();
+        Map<Date, Order> dateOrder = new TreeMap<>();
+        this.orders= (T) orders;
+        this.dateOrder = (U) dateOrder;
+    }
+
+    public Orders(T orders, U dateOrder) {
         this.orders = orders;
         this.dateOrder = dateOrder;
         for (Order order : orders) {
@@ -19,16 +27,20 @@ public class OrdersGeneric<T extends List<Order>, U extends Map<Date, Order>> {
         }
     }
 
-    List<Order> getOrders() {
+    public U getDateOrder() {
+        return dateOrder;
+    }
+
+    public T getOrders() {
         return orders;
     }
 
-    void add(Order order) {
+    public void add(Order order) {
         orders.add(order);
         dateOrder.put(order.getDateCreate(), order);
     }
 
-    <T extends List<Device>, U extends Set<UUID>> void makePurchase(ShoppingCartGeneric<T, U> cart, Credentials user) {
+    <T extends List<Device>, U extends Set<UUID>> void makePurchase(ShoppingCart<T, U> cart, Credentials user) {
         add(new Order(cart, user));
     }
 
@@ -52,7 +64,7 @@ public class OrdersGeneric<T extends List<Order>, U extends Map<Date, Order>> {
         }
     }
 
-    void show() {
+    public void show() {
         if (orders.size() == 0) {
             System.out.println("Заказов нет!");
         }
