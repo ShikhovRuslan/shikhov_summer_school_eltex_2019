@@ -9,24 +9,29 @@ public class Server {
     private static final int PORT = 4405;
     private String host;
 
-    Server(String host) {
+    private Server(String host) {
         this.host = host;
     }
 
-    public static int getPortUdp() {
+    static int getPortUdp() {
         return PORT_UDP;
     }
 
-    public static int getPortUdpReply() {
+    static int getPortUdpReply() {
         return PORT_UDP_REPLY;
     }
 
     void sendMessage(String message, int port) {
+        byte[] data;
+        InetAddress address;
+        DatagramPacket pack;
+        DatagramSocket ds;
+
         try {
-            byte[] data = message.getBytes();
-            InetAddress addr = InetAddress.getByName(host);
-            DatagramPacket pack = new DatagramPacket(data, data.length, addr, port);
-            DatagramSocket ds = new DatagramSocket();
+            data = message.getBytes();
+            address = InetAddress.getByName(host);
+            pack = new DatagramPacket(data, data.length, address, port);
+            ds = new DatagramSocket();
             ds.send(pack);
             ds.close();
         } catch (Exception e) {
@@ -35,24 +40,32 @@ public class Server {
     }
 
     public static void main(String[] args) {
-        Server server = new Server("localhost");
+        Server server;
+        ServerSocket serverSocket;
+        SendingUDP send;
+        Thread threadSend, threadServerConnection;
+        int i = 0;
+        Socket socket;
+        ServerConnection serverConnection;
+
+        server = new Server("localhost");
         try {
             System.out.println("server is running");
-            ServerSocket serverSocket = new ServerSocket(PORT);
+            serverSocket = new ServerSocket(PORT);
 
-            SendingUDP send = new SendingUDP(PORT, server);
-            Thread threadSend = new Thread(send);
+            send = new SendingUDP(PORT, server);
+            threadSend = new Thread(send);
             threadSend.start();
 
-            int i = 0;
             while (true) {
                 i++;
                 System.out.println("waiting for clients (" + i + ")");
-                Socket socket = serverSocket.accept();
+                socket = serverSocket.accept();
                 System.out.println("client " + i + " is accepted");
-                ServerConnectionProcessor scp = new ServerConnectionProcessor(socket, server, PORT, i);
-                Thread threadScp = new Thread(scp);
-                threadScp.start();
+
+                serverConnection = new ServerConnection(socket, server, i);
+                threadServerConnection = new Thread(serverConnection);
+                threadServerConnection.start();
             }
         } catch (Exception e) {
             System.out.println(e);

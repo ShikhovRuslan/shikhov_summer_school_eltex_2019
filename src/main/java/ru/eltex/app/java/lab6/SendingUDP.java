@@ -4,8 +4,8 @@ import static ru.eltex.app.java.lab6.Server.getPortUdp;
 
 public class SendingUDP implements Runnable {
 
-    int port;
-    Server server;
+    private int port;
+    private Server server;
 
     SendingUDP(int port, Server server) {
         this.port = port;
