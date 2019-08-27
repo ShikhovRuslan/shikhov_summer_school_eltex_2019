@@ -22,7 +22,6 @@ public class Server {
         ServerSocket serverSocket;
         SendingUDP send;
         Thread threadSend, threadServerConnection;
-        int i = 0;
         Socket socket;
         ServerConnection serverConnection;
 
@@ -38,16 +37,17 @@ public class Server {
             threadSend.start();
 
             while (true) {
-                i++;
-                System.out.println("waiting for clients (" + i + ")");
+                System.out.println("waiting for clients");
                 socket = serverSocket.accept();
-                System.out.println("client " + i + " is accepted");
+                System.out.println("client is accepted");
 
                 // работа с подключившимся клиентом в новом потоке
                 // после обработки полученного от клиента заказа отправка ему сообщения ANSWER, используя порт PORT_UDP_REPLY
-                serverConnection = new ServerConnection(socket, i);
+                serverConnection = new ServerConnection(socket);
                 threadServerConnection = new Thread(serverConnection);
                 threadServerConnection.start();
+
+                System.out.println();
             }
         } catch (Exception e) {
             System.out.println(e);

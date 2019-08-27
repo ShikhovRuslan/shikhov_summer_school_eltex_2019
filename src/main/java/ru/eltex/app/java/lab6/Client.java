@@ -12,12 +12,13 @@ import java.net.Socket;
 
 import static ru.eltex.app.java.lab3.Order.generateOrder;
 
-public class Client {
+public class Client implements Runnable {
 
-    private int count = 0;
+    private static int count = 0;
+    private int number;
 
-    private Client() {
-        count++;
+    private Client(int number) {
+        this.number = number;
     }
 
     private long sendOrder(Order order, String hostAddress, int port) throws Exception {
@@ -33,8 +34,9 @@ public class Client {
         oos = new ObjectOutputStream(outStream);
 
         oos.writeObject(order);
+        oos.writeObject(number);
         timeWrite = System.currentTimeMillis();
-        System.out.println("client " + count + " sent order to server\n");
+        System.out.println("client " + number + " sent order to server\n");
 
         inStream.close();
         outStream.close();
@@ -65,7 +67,10 @@ public class Client {
         }
     }
 
-    private void run() {
+    @Override
+    public void run() {
+        count++;
+
         DatagramPacket pack, pack1;
         InetAddress address;
         int port;
@@ -75,10 +80,10 @@ public class Client {
         boolean isStatusChanged;
 
         try {
-            System.out.println("receiver " + count + " is running");
+            System.out.println("receiver " + number + " is running");
 
-            pack = connectToServer(Server.getPortUdp());
-            System.out.println("pack received by " + count);
+            pack = connectToServer(Server.getPortUdp() + number);
+            System.out.println("pack received by " + number);
             address = pack.getAddress();
             port = new Integer(new String(pack.getData()).substring(0, pack.getLength()));
 
@@ -86,9 +91,9 @@ public class Client {
                 order = generateOrder((int) (Math.random() * 3) + 1);
                 timeWrite = sendOrder(order, address.getHostAddress(), port);
 
-                pack1 = connectToServer(Server.getPortUdpReply());
+                pack1 = connectToServer(Server.getPortUdpReply() + number);
                 timeReceive = System.currentTimeMillis();
-                System.out.println("client " + count + " received answer from server");
+                System.out.println("client " + number + " received answer from server");
                 answer = (new String(pack1.getData())).substring(0, ServerConnection.getAnswer().length());
                 time = timeReceive - timeWrite - ServerConnection.getPause();
 
@@ -100,11 +105,14 @@ public class Client {
     }
 
     public static void main(String[] args) {
-        Client client1 = new Client();
-        Client client2 = new Client();
+        Client client1 = new Client(1);
+        Client client2 = new Client(2);
 
-        client1.run();
-        client2.run();
+        Thread thread1 = new Thread(client1);
+        Thread thread2 = new Thread(client2);
+
+        thread1.start();
+        thread2.start();
     }
 
 }

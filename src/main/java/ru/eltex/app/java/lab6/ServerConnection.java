@@ -19,10 +19,9 @@ public class ServerConnection implements Runnable {
     private String host;
     private int countClient;
 
-    ServerConnection(Socket socket, int countClient) {
+    ServerConnection(Socket socket) {
         this.socket = socket;
         host = socket.getInetAddress().getHostName();
-        this.countClient = countClient;
     }
 
     static long getPause() {
@@ -44,6 +43,7 @@ public class ServerConnection implements Runnable {
         ois = new ObjectInputStream(inStream);
 
         order = (Order) ois.readObject();
+        countClient = (int) ois.readObject();
         System.out.println("reading info from client " + countClient);
 
         inStream.close();
@@ -55,6 +55,7 @@ public class ServerConnection implements Runnable {
 
     @Override
     public void run() {
+        System.out.println("server connection works");
         Order order;
         Orders<LinkedList<Order>, TreeMap<Date, Order>> orders;
 
@@ -71,7 +72,7 @@ public class ServerConnection implements Runnable {
                 e.printStackTrace();
             }
 
-            SendingUDP.sendMessage(ANSWER, Server.getPortUdpReply(), host);
+            SendingUDP.sendMessage(ANSWER, Server.getPortUdpReply() + countClient, host);
         } catch (Exception e) {
             System.out.println(e);
         }
