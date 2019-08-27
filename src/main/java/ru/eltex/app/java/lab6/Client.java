@@ -1,5 +1,6 @@
 package ru.eltex.app.java.lab6;
 
+import ru.eltex.app.java.lab2.OrderStatus;
 import ru.eltex.app.java.lab3.Order;
 
 import java.io.DataInputStream;
@@ -14,7 +15,6 @@ import static ru.eltex.app.java.lab3.Order.generateOrder;
 
 public class Client implements Runnable {
 
-    private static int count = 0;
     private int number;
 
     private Client(int number) {
@@ -36,7 +36,7 @@ public class Client implements Runnable {
         oos.writeObject(order);
         oos.writeObject(number);
         timeWrite = System.currentTimeMillis();
-        System.out.println("client " + number + " sent order to server\n");
+        System.out.println("клиент " + number + " отправил заказ\n");
 
         inStream.close();
         outStream.close();
@@ -57,10 +57,10 @@ public class Client implements Runnable {
         return pack;
     }
 
-    private boolean analizeAnswer(String str, Order order, long time) {
+    private boolean analyseAnswer(String str, Order order, long time) {
         if (str.equals(ServerConnection.getAnswer())) {
             order.show();
-            System.out.println("время обработки заказа: " + time);
+            System.out.println("время обработки заказа: " + time + "\n");
             return true;
         } else {
             return false;
@@ -69,8 +69,6 @@ public class Client implements Runnable {
 
     @Override
     public void run() {
-        count++;
-
         DatagramPacket pack, pack1;
         InetAddress address;
         int port;
@@ -80,10 +78,10 @@ public class Client implements Runnable {
         boolean isStatusChanged;
 
         try {
-            System.out.println("receiver " + number + " is running");
+            System.out.println("клиент " + number + " запущен\n");
 
             pack = connectToServer(Server.getPortUdp() + number);
-            System.out.println("pack received by " + number);
+            System.out.println("клиент " + number + " принял пакет\n");
             address = pack.getAddress();
             port = new Integer(new String(pack.getData()).substring(0, pack.getLength()));
 
@@ -93,11 +91,12 @@ public class Client implements Runnable {
 
                 pack1 = connectToServer(Server.getPortUdpReply() + number);
                 timeReceive = System.currentTimeMillis();
-                System.out.println("client " + number + " received answer from server");
+                System.out.println("клиент " + number + " получил ответ об изменении статуса заказа\n");
                 answer = (new String(pack1.getData())).substring(0, ServerConnection.getAnswer().length());
                 time = timeReceive - timeWrite - ServerConnection.getPause();
+                order.setStatus(OrderStatus.DONE);
 
-                isStatusChanged = analizeAnswer(answer, order, time);
+                isStatusChanged = analyseAnswer(answer, order, time);
             } while (isStatusChanged);
         } catch (Exception e) {
             System.out.println(e);
@@ -105,14 +104,17 @@ public class Client implements Runnable {
     }
 
     public static void main(String[] args) {
-        Client client1 = new Client(1);
-        Client client2 = new Client(2);
+        Client client1, client2;
+        Thread threadClient1, threadClient2;
 
-        Thread thread1 = new Thread(client1);
-        Thread thread2 = new Thread(client2);
+        client1 = new Client(1);
+        client2 = new Client(2);
 
-        thread1.start();
-        thread2.start();
+        threadClient1 = new Thread(client1);
+        threadClient2 = new Thread(client2);
+
+        threadClient1.start();
+        threadClient2.start();
     }
 
 }

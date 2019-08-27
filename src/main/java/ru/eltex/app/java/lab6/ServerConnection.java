@@ -17,7 +17,7 @@ public class ServerConnection implements Runnable {
     private static final String ANSWER = "status changed";
     private Socket socket;
     private String host;
-    private int countClient;
+    private int numberClient;
 
     ServerConnection(Socket socket) {
         this.socket = socket;
@@ -43,8 +43,8 @@ public class ServerConnection implements Runnable {
         ois = new ObjectInputStream(inStream);
 
         order = (Order) ois.readObject();
-        countClient = (int) ois.readObject();
-        System.out.println("reading info from client " + countClient);
+        numberClient = (int) ois.readObject();
+        System.out.println("заказ от клиента " + numberClient + " получен\n");
 
         inStream.close();
         outStream.close();
@@ -55,7 +55,6 @@ public class ServerConnection implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("server connection works");
         Order order;
         Orders<LinkedList<Order>, TreeMap<Date, Order>> orders;
 
@@ -72,7 +71,7 @@ public class ServerConnection implements Runnable {
                 e.printStackTrace();
             }
 
-            SendingUDP.sendMessage(ANSWER, Server.getPortUdpReply() + countClient, host);
+            SendingUDP.sendMessage(ANSWER, Server.getPortUdpReply() + numberClient, host);
         } catch (Exception e) {
             System.out.println(e);
         }

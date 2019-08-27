@@ -37,8 +37,7 @@ public class SendingUDP implements Runnable {
     @Override
     public void run() {
         while (true) {
-            int numberPorts = 10;
-            for (int i = 0; i < numberPorts; i++) {
+            for (int i = 0; i < Server.getNumberPortsUdp(); i++) {
                 sendMessage(message, getPortUdp() + i, host);
             }
         }

@@ -8,6 +8,7 @@ public class Server {
     private static final int PORT_UDP_REPLY = 1845;
     private static final int PORT = 4405;
     private static final String LOCAL_HOST = "localhost";
+    private static final int NUMBER_PORTS_UDP = 1000;
 
     static int getPortUdp() {
         return PORT_UDP;
@@ -15,6 +16,10 @@ public class Server {
 
     static int getPortUdpReply() {
         return PORT_UDP_REPLY;
+    }
+
+    static int getNumberPortsUdp() {
+        return NUMBER_PORTS_UDP;
     }
 
     public static void main(String[] args) {
@@ -26,7 +31,7 @@ public class Server {
         ServerConnection serverConnection;
 
         server = new Server();
-        System.out.println("server is running");
+        System.out.println("сервер запущен\n");
 
         try {
             serverSocket = new ServerSocket(PORT);
@@ -37,17 +42,15 @@ public class Server {
             threadSend.start();
 
             while (true) {
-                System.out.println("waiting for clients");
+                System.out.println("ожидание клиентов\n");
                 socket = serverSocket.accept();
-                System.out.println("client is accepted");
+                System.out.println("клиент принят\n");
 
                 // работа с подключившимся клиентом в новом потоке
                 // после обработки полученного от клиента заказа отправка ему сообщения ANSWER, используя порт PORT_UDP_REPLY
                 serverConnection = new ServerConnection(socket);
                 threadServerConnection = new Thread(serverConnection);
                 threadServerConnection.start();
-
-                System.out.println();
             }
         } catch (Exception e) {
             System.out.println(e);
