@@ -1,6 +1,11 @@
 package ru.eltex.app.java.lab6;
 
+import ru.eltex.app.java.lab3.Order;
+import ru.eltex.app.java.lab3.Orders;
+
 import java.net.*;
+import java.sql.Date;
+import java.util.*;
 
 public class Server {
 
@@ -9,6 +14,13 @@ public class Server {
     private static final int PORT = 4405;
     private static final String LOCAL_HOST = "localhost";
     private static final int NUMBER_PORTS_UDP = 1000;
+    private static Orders<LinkedList<Order>, TreeMap<Date, Order>> orders;
+    private static TreeMap<UUID, Integer> usersIds;
+
+    private Server() {
+        Server.orders = new Orders<>(new LinkedList<>(), new TreeMap<>());
+        Server.usersIds = new TreeMap<>();
+    }
 
     static int getPortUdp() {
         return PORT_UDP;
@@ -22,13 +34,22 @@ public class Server {
         return NUMBER_PORTS_UDP;
     }
 
+    static Orders<LinkedList<Order>, TreeMap<Date, Order>> getOrders() {
+        return orders;
+    }
+
+    static TreeMap<UUID, Integer> getUsersIds() {
+        return usersIds;
+    }
+
     public static void main(String[] args) {
         Server server;
         ServerSocket serverSocket;
         SendingUDP send;
-        Thread threadSend, threadServerConnection;
+        Thread threadSend, threadServerConnection, threadScn;
         Socket socket;
         ServerConnection serverConnection;
+        StatusChangeNotification scn;
 
         server = new Server();
         System.out.println("сервер запущен\n");
@@ -40,6 +61,11 @@ public class Server {
             send = new SendingUDP(Integer.toString(PORT), LOCAL_HOST);
             threadSend = new Thread(send);
             threadSend.start();
+
+            // рассылка уведомлений о смене статусов заказов
+            scn = new StatusChangeNotification(LOCAL_HOST);
+            threadScn = new Thread(scn);
+            threadScn.start();
 
             while (true) {
                 System.out.println("ожидание клиентов\n");

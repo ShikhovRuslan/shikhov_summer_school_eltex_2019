@@ -51,6 +51,10 @@ public class Order implements Serializable {
         this.user = user;
     }
 
+    public Credentials getUser() {
+        return user;
+    }
+
     public void setId(UUID id) {
         this.id = id;
     }

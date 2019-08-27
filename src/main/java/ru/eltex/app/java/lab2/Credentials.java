@@ -42,6 +42,10 @@ public class Credentials implements Serializable {
         this.email = email;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
     static <T> T getRandom(T[] arr) {
         Random r = new Random();
         return arr[r.nextInt(arr.length)];

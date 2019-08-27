@@ -10,14 +10,15 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.concurrent.locks.ReentrantLock;
 
 import static ru.eltex.app.java.lab3.Order.generateOrder;
 
-public class Client implements Runnable {
+public class Credentials extends ru.eltex.app.java.lab2.Credentials implements Runnable {
 
     private int number;
 
-    private Client(int number) {
+    private Credentials(int number) {
         this.number = number;
     }
 
@@ -58,12 +59,14 @@ public class Client implements Runnable {
     }
 
     private boolean analyseAnswer(String str, Order order, long time) {
-        if (str.equals(ServerConnection.getAnswer())) {
-            order.show();
-            System.out.println("время обработки заказа: " + time + "\n");
-            return true;
-        } else {
-            return false;
+        synchronized (System.out) {
+            if (str.equals(ServerConnection.getAnswer())) {
+                order.show();
+                System.out.println("время обработки заказа: " + time + "\n");
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 
@@ -104,17 +107,17 @@ public class Client implements Runnable {
     }
 
     public static void main(String[] args) {
-        Client client1, client2;
-        Thread threadClient1, threadClient2;
+        Credentials user1, user2;
+        Thread threadUser1, threadUser2;
 
-        client1 = new Client(1);
-        client2 = new Client(2);
+        user1 = new Credentials(1);
+        user2 = new Credentials(2);
 
-        threadClient1 = new Thread(client1);
-        threadClient2 = new Thread(client2);
+        threadUser1 = new Thread(user1);
+        threadUser2 = new Thread(user2);
 
-        threadClient1.start();
-        threadClient2.start();
+        threadUser1.start();
+        threadUser2.start();
     }
 
 }

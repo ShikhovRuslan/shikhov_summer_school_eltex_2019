@@ -1,27 +1,21 @@
 package ru.eltex.app.java.lab6;
 
 import ru.eltex.app.java.lab3.Order;
-import ru.eltex.app.java.lab3.Orders;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.ObjectInputStream;
 import java.net.Socket;
-import java.sql.Date;
-import java.util.LinkedList;
-import java.util.TreeMap;
 
 public class ServerConnection implements Runnable {
 
     private static final long PAUSE = 1500;
     private static final String ANSWER = "status changed";
     private Socket socket;
-    private String host;
-    private int numberClient;
+    private int numberUser;
 
     ServerConnection(Socket socket) {
         this.socket = socket;
-        host = socket.getInetAddress().getHostName();
     }
 
     static long getPause() {
@@ -43,8 +37,8 @@ public class ServerConnection implements Runnable {
         ois = new ObjectInputStream(inStream);
 
         order = (Order) ois.readObject();
-        numberClient = (int) ois.readObject();
-        System.out.println("заказ от клиента " + numberClient + " получен\n");
+        numberUser = (int) ois.readObject();
+        System.out.println("заказ от клиента " + numberUser + " получен\n");
 
         inStream.close();
         outStream.close();
@@ -56,22 +50,14 @@ public class ServerConnection implements Runnable {
     @Override
     public void run() {
         Order order;
-        Orders<LinkedList<Order>, TreeMap<Date, Order>> orders;
 
         try {
             order = receiveOrder();
 
-            orders = new Orders<>();
-            orders.add(order);
-            orders.checkTime();
+            Server.getOrders().add(order);
+            Server.getUsersIds().put(order.getUser().getId(), numberUser);
 
-            try {
-                Thread.sleep(PAUSE);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            SendingUDP.sendMessage(ANSWER, Server.getPortUdpReply() + numberClient, host);
+            Thread.sleep(PAUSE);
         } catch (Exception e) {
             System.out.println(e);
         }
