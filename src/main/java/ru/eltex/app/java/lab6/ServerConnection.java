@@ -19,17 +19,17 @@ public class ServerConnection implements Runnable {
     private String host;
     private int countClient;
 
-    ServerConnection(Socket socket, String host, int countClient) {
+    ServerConnection(Socket socket, int countClient) {
         this.socket = socket;
-        this.host = host;
+        host = socket.getInetAddress().getHostName();
         this.countClient = countClient;
     }
 
-    static long getPause(){
+    static long getPause() {
         return PAUSE;
     }
 
-    static String getAnswer(){
+    static String getAnswer() {
         return ANSWER;
     }
 

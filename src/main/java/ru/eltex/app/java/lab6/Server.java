@@ -27,8 +27,9 @@ public class Server {
         ServerConnection serverConnection;
 
         server = new Server();
+        System.out.println("server is running");
+
         try {
-            System.out.println("server is running");
             serverSocket = new ServerSocket(PORT);
 
             // рассылка порта PORT потенциальным клиентам, используя порт PORT_UDP
@@ -42,7 +43,9 @@ public class Server {
                 socket = serverSocket.accept();
                 System.out.println("client " + i + " is accepted");
 
-                serverConnection = new ServerConnection(socket, LOCAL_HOST, i);
+                // работа с подключившимся клиентом в новом потоке
+                // после обработки полученного от клиента заказа отправка ему сообщения ANSWER, используя порт PORT_UDP_REPLY
+                serverConnection = new ServerConnection(socket, i);
                 threadServerConnection = new Thread(serverConnection);
                 threadServerConnection.start();
             }
