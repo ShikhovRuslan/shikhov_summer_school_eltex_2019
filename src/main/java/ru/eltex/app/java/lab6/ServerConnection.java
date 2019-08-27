@@ -17,11 +17,13 @@ public class ServerConnection implements Runnable {
     private static final String ANSWER = "status changed";
     private Socket socket;
     private Server server;
+    private String host;
     private int countClient;
 
-    ServerConnection(Socket socket, Server server, int countClient) {
+    ServerConnection(Socket socket, Server server, String host, int countClient) {
         this.socket = socket;
         this.server = server;
+        this.host = host;
         this.countClient = countClient;
     }
 
@@ -71,7 +73,7 @@ public class ServerConnection implements Runnable {
                 e.printStackTrace();
             }
 
-            server.sendMessage(getAnswer(), server.getPortUdpReply());
+            server.sendMessage(getAnswer(), server.getPortUdpReply(), host);
         } catch (Exception e) {
             System.out.println(e);
         }

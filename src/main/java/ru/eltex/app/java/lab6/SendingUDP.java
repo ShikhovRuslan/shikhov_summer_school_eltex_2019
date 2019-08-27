@@ -5,17 +5,17 @@ import static ru.eltex.app.java.lab6.Server.getPortUdp;
 public class SendingUDP implements Runnable {
 
     private int port;
-    private Server server;
+    private String host;
 
-    SendingUDP(int port, Server server) {
+    SendingUDP(int port, String host) {
         this.port = port;
-        this.server = server;
+        this.host = host;
     }
 
     @Override
     public void run() {
         while (true) {
-            server.sendMessage(Integer.toString(port), getPortUdp());
+            Server.sendMessage(Integer.toString(port), getPortUdp(), host);
         }
     }
 

@@ -7,11 +7,7 @@ public class Server {
     private static final int PORT_UDP = 3333;
     private static final int PORT_UDP_REPLY = 1845;
     private static final int PORT = 4405;
-    private String host;
-
-    private Server(String host) {
-        this.host = host;
-    }
+    private static final String LOCAL_HOST = "localhost";
 
     static int getPortUdp() {
         return PORT_UDP;
@@ -21,7 +17,7 @@ public class Server {
         return PORT_UDP_REPLY;
     }
 
-    void sendMessage(String message, int port) {
+    static void sendMessage(String message, int port, String host) {
         byte[] data;
         InetAddress address;
         DatagramPacket pack;
@@ -48,12 +44,12 @@ public class Server {
         Socket socket;
         ServerConnection serverConnection;
 
-        server = new Server("localhost");
+        server = new Server();
         try {
             System.out.println("server is running");
             serverSocket = new ServerSocket(PORT);
 
-            send = new SendingUDP(PORT, server);
+            send = new SendingUDP(PORT, LOCAL_HOST);
             threadSend = new Thread(send);
             threadSend.start();
 
@@ -63,7 +59,7 @@ public class Server {
                 socket = serverSocket.accept();
                 System.out.println("client " + i + " is accepted");
 
-                serverConnection = new ServerConnection(socket, server, i);
+                serverConnection = new ServerConnection(socket, server, LOCAL_HOST, i);
                 threadServerConnection = new Thread(serverConnection);
                 threadServerConnection.start();
             }
