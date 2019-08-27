@@ -17,24 +17,6 @@ public class Server {
         return PORT_UDP_REPLY;
     }
 
-    static void sendMessage(String message, int port, String host) {
-        byte[] data;
-        InetAddress address;
-        DatagramPacket pack;
-        DatagramSocket ds;
-
-        try {
-            data = message.getBytes();
-            address = InetAddress.getByName(host);
-            pack = new DatagramPacket(data, data.length, address, port);
-            ds = new DatagramSocket();
-            ds.send(pack);
-            ds.close();
-        } catch (Exception e) {
-            System.err.println(e);
-        }
-    }
-
     public static void main(String[] args) {
         Server server;
         ServerSocket serverSocket;
@@ -49,7 +31,8 @@ public class Server {
             System.out.println("server is running");
             serverSocket = new ServerSocket(PORT);
 
-            send = new SendingUDP(PORT, LOCAL_HOST);
+            // рассылка порта PORT потенциальным клиентам, используя порт PORT_UDP
+            send = new SendingUDP(Integer.toString(PORT), LOCAL_HOST);
             threadSend = new Thread(send);
             threadSend.start();
 
@@ -59,7 +42,7 @@ public class Server {
                 socket = serverSocket.accept();
                 System.out.println("client " + i + " is accepted");
 
-                serverConnection = new ServerConnection(socket, server, LOCAL_HOST, i);
+                serverConnection = new ServerConnection(socket, LOCAL_HOST, i);
                 threadServerConnection = new Thread(serverConnection);
                 threadServerConnection.start();
             }

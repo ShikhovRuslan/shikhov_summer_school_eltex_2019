@@ -1,21 +1,43 @@
 package ru.eltex.app.java.lab6;
 
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+
 import static ru.eltex.app.java.lab6.Server.getPortUdp;
 
 public class SendingUDP implements Runnable {
 
-    private int port;
+    private String message;
     private String host;
 
-    SendingUDP(int port, String host) {
-        this.port = port;
+    SendingUDP(String message, String host) {
+        this.message = message;
         this.host = host;
+    }
+
+    static void sendMessage(String msg, int port, String hst) {
+        byte[] data;
+        InetAddress address;
+        DatagramPacket pack;
+        DatagramSocket ds;
+
+        try {
+            data = msg.getBytes();
+            address = InetAddress.getByName(hst);
+            pack = new DatagramPacket(data, data.length, address, port);
+            ds = new DatagramSocket();
+            ds.send(pack);
+            ds.close();
+        } catch (Exception e) {
+            System.err.println(e);
+        }
     }
 
     @Override
     public void run() {
         while (true) {
-            Server.sendMessage(Integer.toString(port), getPortUdp(), host);
+            sendMessage(message, getPortUdp(), host);
         }
     }
 
