@@ -64,6 +64,7 @@ public class Credentials extends ru.eltex.app.java.lab2.Credentials implements R
     private boolean analyseAnswer(String str, Order order, long time) {
         synchronized (System.out) {
             if (str.equals(server.getAnswer())) {
+                order.setStatus(OrderStatus.DONE);
                 order.show();
                 System.out.println("время обработки заказа: " + time + "\n");
                 return true;
@@ -99,8 +100,7 @@ public class Credentials extends ru.eltex.app.java.lab2.Credentials implements R
                 timeReceive = System.currentTimeMillis();
                 System.out.println("клиент " + number + " получил ответ об изменении статуса заказа\n");
                 answer = (new String(pack1.getData())).substring(0, server.getAnswer().length());
-                time = timeReceive - timeWrite - server.getPauseServerConnection();
-                order.setStatus(OrderStatus.DONE);
+                time = timeReceive - timeWrite - server.getPauseNotification();
 
                 isStatusChanged = analyseAnswer(answer, order, time);
             } while (isStatusChanged && isActive);

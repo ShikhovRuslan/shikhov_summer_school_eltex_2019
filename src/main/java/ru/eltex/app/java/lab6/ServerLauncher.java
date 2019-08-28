@@ -9,24 +9,24 @@ public class ServerLauncher {
     public static void main(String[] args) {
         Server server;
         ServerSocket serverSocket;
-        SendingUDP send = null;
-        Thread threadSend, threadServerConnection, threadScn;
         Socket socket;
-        ServerConnection serverConnection;
+        SendingUDP send = null;
         StatusChangeNotification scn = null;
+        ServerConnection serverConnection;
+        Thread threadSend, threadScn, threadServerConnection;
 
         server = new Server();
-        System.out.println("сервер запущен\n");
 
         try {
             serverSocket = new ServerSocket(server.getPort());
+            System.out.println("сервер запущен\n");
 
-            // рассылка порта PORT потенциальным клиентам, используя порт PORT_UDP
+            // рассылка порта PORT потенциальным клиентам, используя порты PORT_UDP...PORT_UDP+NUMBER_PORTS_UDP
             send = new SendingUDP(server, Integer.toString(server.getPort()), server.getLocalHost());
             threadSend = new Thread(send);
             threadSend.start();
 
-            // рассылка уведомлений о смене статусов заказов
+            // рассылка уведомлений о смене статусов заказов, полученных от клиентов
             scn = new StatusChangeNotification(server, server.getLocalHost());
             threadScn = new Thread(scn);
             threadScn.start();
@@ -37,8 +37,7 @@ public class ServerLauncher {
                 socket = serverSocket.accept();
                 System.out.println("клиент принят\n");
 
-                // работа с подключившимся клиентом в новом потоке
-                // после обработки полученного от клиента заказа отправка ему сообщения ANSWER, используя порт PORT_UDP_REPLY
+                // получение заказа от клиента
                 serverConnection = new ServerConnection(server, socket);
                 threadServerConnection = new Thread(serverConnection);
                 threadServerConnection.start();

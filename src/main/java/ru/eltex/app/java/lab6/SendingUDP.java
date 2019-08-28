@@ -21,14 +21,14 @@ public class SendingUDP implements Runnable {
     static void sendMessage(String msg, int port, String hst) {
         byte[] data;
         InetAddress address;
-        DatagramPacket pack;
         DatagramSocket ds;
+        DatagramPacket pack;
 
         try {
             data = msg.getBytes();
             address = InetAddress.getByName(hst);
-            pack = new DatagramPacket(data, data.length, address, port);
             ds = new DatagramSocket();
+            pack = new DatagramPacket(data, data.length, address, port);
             ds.send(pack);
             ds.close();
         } catch (Exception e) {
@@ -39,7 +39,7 @@ public class SendingUDP implements Runnable {
     @Override
     public void run() {
         while (isActive) {
-            for (int i = 0; i < server.getNumberPortsUdp(); i++) {
+            for (int i = 0; i <= server.getNumberPortsUdp(); i++) {
                 sendMessage(message, server.getPortUdp() + i, host);
             }
         }

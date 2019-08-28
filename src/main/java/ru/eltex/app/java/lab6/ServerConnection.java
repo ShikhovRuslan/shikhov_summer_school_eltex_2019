@@ -41,18 +41,14 @@ public class ServerConnection implements Runnable {
 
     @Override
     public void run() {
-        Order order;
-
+        Order order = null;
         try {
             order = receiveOrder();
-
-            server.getOrders().add(order);
-            server.getUsersIds().put(order.getUser().getId(), numberUser);
-
-            Thread.sleep(server.getPauseServerConnection());
         } catch (Exception e) {
             System.out.println(e);
         }
+        server.getOrders().add(order);
+        server.getCredentialsIds().put(order.getUser().getId(), numberUser);
     }
 
 }
