@@ -10,16 +10,17 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.concurrent.locks.ReentrantLock;
 
 import static ru.eltex.app.java.lab3.Order.generateOrder;
 
 public class Credentials extends ru.eltex.app.java.lab2.Credentials implements Runnable {
 
     private int number;
+    private boolean isActive;
 
-    private Credentials(int number) {
+    Credentials(int number) {
         this.number = number;
+        isActive = true;
     }
 
     private long sendOrder(Order order, String hostAddress, int port) throws Exception {
@@ -100,24 +101,19 @@ public class Credentials extends ru.eltex.app.java.lab2.Credentials implements R
                 order.setStatus(OrderStatus.DONE);
 
                 isStatusChanged = analyseAnswer(answer, order, time);
-            } while (isStatusChanged);
+            } while (isStatusChanged && isActive);
         } catch (Exception e) {
             System.out.println(e);
         }
+        if (!isActive){
+            synchronized (System.out) {
+                System.out.println("клиент " + number + " завершил работу\n");
+            }
+        }
     }
 
-    public static void main(String[] args) {
-        Credentials user1, user2;
-        Thread threadUser1, threadUser2;
-
-        user1 = new Credentials(1);
-        user2 = new Credentials(2);
-
-        threadUser1 = new Thread(user1);
-        threadUser2 = new Thread(user2);
-
-        threadUser1.start();
-        threadUser2.start();
+    void stop() {
+        isActive = false;
     }
 
 }

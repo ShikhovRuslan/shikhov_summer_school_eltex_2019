@@ -16,6 +16,7 @@ public class Server {
     private static final int NUMBER_PORTS_UDP = 1000;
     private static Orders<LinkedList<Order>, TreeMap<Date, Order>> orders;
     private static TreeMap<UUID, Integer> usersIds;
+    //private static
 
     private Server() {
         Server.orders = new Orders<>(new LinkedList<>(), new TreeMap<>());
