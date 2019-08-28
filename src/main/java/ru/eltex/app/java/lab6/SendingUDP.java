@@ -4,15 +4,15 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-import static ru.eltex.app.java.lab6.Server.getPortUdp;
-
 public class SendingUDP implements Runnable {
 
+    private Server server;
     private String message;
     private String host;
     private boolean isActive;
 
-    SendingUDP(String message, String host) {
+    SendingUDP(Server server, String message, String host) {
+        this.server = server;
         this.message = message;
         this.host = host;
         isActive = true;
@@ -39,13 +39,13 @@ public class SendingUDP implements Runnable {
     @Override
     public void run() {
         while (isActive) {
-            for (int i = 0; i < Server.getNumberPortsUdp(); i++) {
-                sendMessage(message, getPortUdp() + i, host);
+            for (int i = 0; i < server.getNumberPortsUdp(); i++) {
+                sendMessage(message, server.getPortUdp() + i, host);
             }
         }
     }
 
-    void stop(){
+    void stop() {
         isActive = false;
     }
 

@@ -9,21 +9,13 @@ import java.net.Socket;
 
 public class ServerConnection implements Runnable {
 
-    private static final long PAUSE = 1500;
-    private static final String ANSWER = "status changed";
+    private Server server;
     private Socket socket;
     private int numberUser;
 
-    ServerConnection(Socket socket) {
+    ServerConnection(Server server, Socket socket) {
+        this.server = server;
         this.socket = socket;
-    }
-
-    static long getPause() {
-        return PAUSE;
-    }
-
-    static String getAnswer() {
-        return ANSWER;
     }
 
     private Order receiveOrder() throws Exception {
@@ -54,10 +46,10 @@ public class ServerConnection implements Runnable {
         try {
             order = receiveOrder();
 
-            Server.getOrders().add(order);
-            Server.getUsersIds().put(order.getUser().getId(), numberUser);
+            server.getOrders().add(order);
+            server.getUsersIds().put(order.getUser().getId(), numberUser);
 
-            Thread.sleep(PAUSE);
+            Thread.sleep(server.getPauseServerConnection());
         } catch (Exception e) {
             System.out.println(e);
         }

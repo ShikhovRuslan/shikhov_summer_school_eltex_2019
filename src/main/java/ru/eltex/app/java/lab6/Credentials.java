@@ -15,10 +15,12 @@ import static ru.eltex.app.java.lab3.Order.generateOrder;
 
 public class Credentials extends ru.eltex.app.java.lab2.Credentials implements Runnable {
 
+    private Server server;
     private int number;
     private boolean isActive;
 
-    Credentials(int number) {
+    Credentials(Server server, int number) {
+        this.server = server;
         this.number = number;
         isActive = true;
     }
@@ -61,7 +63,7 @@ public class Credentials extends ru.eltex.app.java.lab2.Credentials implements R
 
     private boolean analyseAnswer(String str, Order order, long time) {
         synchronized (System.out) {
-            if (str.equals(ServerConnection.getAnswer())) {
+            if (str.equals(server.getAnswer())) {
                 order.show();
                 System.out.println("время обработки заказа: " + time + "\n");
                 return true;
@@ -84,7 +86,7 @@ public class Credentials extends ru.eltex.app.java.lab2.Credentials implements R
         try {
             System.out.println("клиент " + number + " запущен\n");
 
-            pack = connectToServer(Server.getPortUdp() + number);
+            pack = connectToServer(server.getPortUdp() + number);
             System.out.println("клиент " + number + " принял пакет\n");
             address = pack.getAddress();
             port = new Integer(new String(pack.getData()).substring(0, pack.getLength()));
@@ -93,11 +95,11 @@ public class Credentials extends ru.eltex.app.java.lab2.Credentials implements R
                 order = generateOrder((int) (Math.random() * 3) + 1);
                 timeWrite = sendOrder(order, address.getHostAddress(), port);
 
-                pack1 = connectToServer(Server.getPortUdpReply() + number);
+                pack1 = connectToServer(server.getPortUdpReply() + number);
                 timeReceive = System.currentTimeMillis();
                 System.out.println("клиент " + number + " получил ответ об изменении статуса заказа\n");
-                answer = (new String(pack1.getData())).substring(0, ServerConnection.getAnswer().length());
-                time = timeReceive - timeWrite - ServerConnection.getPause();
+                answer = (new String(pack1.getData())).substring(0, server.getAnswer().length());
+                time = timeReceive - timeWrite - server.getPauseServerConnection();
                 order.setStatus(OrderStatus.DONE);
 
                 isStatusChanged = analyseAnswer(answer, order, time);
@@ -105,7 +107,7 @@ public class Credentials extends ru.eltex.app.java.lab2.Credentials implements R
         } catch (Exception e) {
             System.out.println(e);
         }
-        if (!isActive){
+        if (!isActive) {
             synchronized (System.out) {
                 System.out.println("клиент " + number + " завершил работу\n");
             }

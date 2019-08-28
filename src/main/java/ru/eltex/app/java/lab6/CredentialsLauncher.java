@@ -2,14 +2,15 @@ package ru.eltex.app.java.lab6;
 
 public class CredentialsLauncher {
 
-    private static long CREDENTIALS_WORKING_TIME = 5000;
+    private static final long CREDENTIALS_WORKING_TIME = 5000;
 
     public static void main(String[] args) {
+        Server server = new Server();
         Credentials user1, user2;
         Thread threadUser1, threadUser2;
 
-        user1 = new Credentials(1);
-        user2 = new Credentials(2);
+        user1 = new Credentials(server, 1);
+        user2 = new Credentials(server, 2);
 
         threadUser1 = new Thread(user1);
         threadUser2 = new Thread(user2);

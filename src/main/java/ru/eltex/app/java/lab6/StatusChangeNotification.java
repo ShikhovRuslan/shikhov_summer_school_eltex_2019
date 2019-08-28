@@ -7,11 +7,13 @@ import java.util.ArrayList;
 
 public class StatusChangeNotification implements Runnable {
 
-    private final static long PAUSE = 3000;
+    private final long PAUSE = 3000;
+    private Server server;
     private String host;
     private boolean isActive;
 
-    StatusChangeNotification(String host) {
+    StatusChangeNotification(Server server, String host) {
+        this.server = server;
         this.host = host;
         isActive = true;
     }
@@ -20,14 +22,14 @@ public class StatusChangeNotification implements Runnable {
     public void run() {
         while (isActive) {
             ArrayList<Integer> mas = new ArrayList<>();
-            for (Order order : Server.getOrders().getOrders()) {
+            for (Order order : server.getOrders().getOrders()) {
                 if (order.getStatus() == OrderStatus.WAITING) {
                     order.setStatus(OrderStatus.DONE);
-                    mas.add(Server.getUsersIds().get(order.getUser().getId()));
+                    mas.add(server.getUsersIds().get(order.getUser().getId()));
                 }
             }
             for (Integer i : mas) {
-                SendingUDP.sendMessage(ServerConnection.getAnswer(), Server.getPortUdpReply() + i, host);
+                SendingUDP.sendMessage(server.getAnswer(), server.getPortUdpReply() + i, host);
             }
             try {
                 Thread.sleep(PAUSE);
@@ -37,7 +39,7 @@ public class StatusChangeNotification implements Runnable {
         }
     }
 
-    void stop(){
+    void stop() {
         isActive = false;
     }
 
