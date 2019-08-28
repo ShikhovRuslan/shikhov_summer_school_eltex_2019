@@ -9,14 +9,16 @@ public class StatusChangeNotification implements Runnable {
 
     private final static long PAUSE = 3000;
     private String host;
+    private boolean isActive;
 
     StatusChangeNotification(String host) {
         this.host = host;
+        isActive = true;
     }
 
     @Override
     public void run() {
-        while (true) {
+        while (isActive) {
             ArrayList<Integer> mas = new ArrayList<>();
             for (Order order : Server.getOrders().getOrders()) {
                 if (order.getStatus() == OrderStatus.WAITING) {
@@ -33,6 +35,10 @@ public class StatusChangeNotification implements Runnable {
                 e.printStackTrace();
             }
         }
+    }
+
+    void stop(){
+        isActive = false;
     }
 
 }

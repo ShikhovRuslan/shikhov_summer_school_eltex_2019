@@ -10,10 +10,12 @@ public class SendingUDP implements Runnable {
 
     private String message;
     private String host;
+    private boolean isActive;
 
     SendingUDP(String message, String host) {
         this.message = message;
         this.host = host;
+        isActive = true;
     }
 
     static void sendMessage(String msg, int port, String hst) {
@@ -36,11 +38,15 @@ public class SendingUDP implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
+        while (isActive) {
             for (int i = 0; i < Server.getNumberPortsUdp(); i++) {
                 sendMessage(message, getPortUdp() + i, host);
             }
         }
+    }
+
+    void stop(){
+        isActive = false;
     }
 
 }
