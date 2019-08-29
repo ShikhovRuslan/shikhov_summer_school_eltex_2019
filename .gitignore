@@ -8,3 +8,6 @@ out/production/labs_java/META-INF
 labs_java.iml
 orders.json
 orders.ser
+/src/main/java/ru/eltex/app/java/test/
+/src/main/java/ru/eltex/app/java/test/
+src/main/java/ru/eltex/app/java/test
