@@ -16,6 +16,9 @@ public abstract class Device implements ICrudAction, Serializable {
     private String model;         // модель
     private String os;            // ОС
 
+
+
+
     // чтобы вводить данные по умолчанию
     public static <T> T getRandom(T[] arr) {
         Random r = new Random();
