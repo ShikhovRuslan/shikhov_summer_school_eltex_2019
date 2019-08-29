@@ -26,8 +26,8 @@ public class ServerLauncher {
             threadSend = new Thread(send);
             threadSend.start();
 
-            // рассылка уведомлений о смене статусов заказов, полученных от клиентов
-            scn = new StatusChangeNotification(server, server.getLocalHost());
+            // смена статусов заказов и рассылка уведомлений об этом клиентам
+            scn = new StatusChangeNotification(server);
             threadScn = new Thread(scn);
             threadScn.start();
 

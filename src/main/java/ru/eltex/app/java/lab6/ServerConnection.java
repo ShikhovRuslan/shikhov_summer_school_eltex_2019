@@ -47,8 +47,7 @@ public class ServerConnection implements Runnable {
         } catch (Exception e) {
             System.out.println(e);
         }
-        server.getOrders().add(order);
-        server.getCredentialsIds().put(order.getUser().getId(), numberUser);
+        server.saveOrder(order, numberUser);
     }
 
 }

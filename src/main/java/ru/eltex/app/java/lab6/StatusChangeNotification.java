@@ -1,43 +1,19 @@
 package ru.eltex.app.java.lab6;
 
-import ru.eltex.app.java.lab2.OrderStatus;
-import ru.eltex.app.java.lab3.Order;
-
-import java.util.ArrayList;
-
 public class StatusChangeNotification implements Runnable {
 
     private Server server;
-    private String host;
     private boolean isActive;
 
-    StatusChangeNotification(Server server, String host) {
+    StatusChangeNotification(Server server) {
         this.server = server;
-        this.host = host;
         isActive = true;
     }
 
     @Override
     public void run() {
         while (isActive) {
-            /**
-             * mas Список номеров тех клиентов, статусы заказов которых были изменены
-             */
-            ArrayList<Integer> mas = new ArrayList<>();
-            for (Order order : server.getOrders().getOrders()) {
-                if (order.getStatus() == OrderStatus.WAITING) {
-                    order.setStatus(OrderStatus.DONE);
-                    mas.add(server.getCredentialsIds().get(order.getUser().getId()));
-                }
-            }
-            for (Integer i : mas) {
-                SendingUDP.sendMessage(server.getAnswer(), server.getPortUdpReply() + i, host);
-            }
-            try {
-                Thread.sleep(server.getPauseNotification());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            server.changeStatuses();
         }
     }
 
