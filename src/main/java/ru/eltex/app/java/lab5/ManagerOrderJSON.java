@@ -15,7 +15,7 @@ import java.io.Reader;
 
 public class ManagerOrderJSON extends AManageOrder {
 
-    ManagerOrderJSON(String filename) {
+    public ManagerOrderJSON(String filename) {
         super(filename);
     }
 

@@ -21,8 +21,16 @@ public class Tablet extends Device {
         this.videoProcessor = videoProcessor;
     }
 
+    public String getVideoProcessor() {
+        return videoProcessor;
+    }
+
     public void setScreenResolution(Dimension screenResolution) {
         this.screenResolution = screenResolution;
+    }
+
+    public Dimension getScreenResolution() {
+        return screenResolution;
     }
 
     @Override

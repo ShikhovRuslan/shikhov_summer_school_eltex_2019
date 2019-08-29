@@ -35,16 +35,36 @@ public class Order implements Serializable {
         id = UUID.randomUUID();
     }
 
-    public UUID getId() {
-        return id;
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
+
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public void setDateCreate(Date dateCreate) {
+        this.dateCreate = dateCreate;
+    }
+
+    public Date getDateCreate() {
+        return dateCreate;
     }
 
     public void setTimeWaiting(long timeWaiting) {
         this.timeWaiting = timeWaiting;
     }
 
+    public long getTimeWaiting() {
+        return timeWaiting;
+    }
+
     public void setCart(ShoppingCart cart) {
         this.cart = cart;
+    }
+
+    public ShoppingCart getCart() {
+        return cart;
     }
 
     public void setUser(Credentials user) {
@@ -59,20 +79,8 @@ public class Order implements Serializable {
         this.id = id;
     }
 
-    public void setDateCreate(Date dateCreate) {
-        this.dateCreate = dateCreate;
-    }
-
-    public OrderStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(OrderStatus status) {
-        this.status = status;
-    }
-
-    public Date getDateCreate() {
-        return dateCreate;
+    public UUID getId() {
+        return id;
     }
 
     public static Order generateOrder(int type) {

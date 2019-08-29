@@ -20,8 +20,16 @@ public class Smartphone extends Device {
         this.typeSim = typeSim;
     }
 
+    public TypeSIM getTypeSim() {
+        return typeSim;
+    }
+
     public void setNumberSim(int numberSim) {
         this.numberSim = numberSim;
+    }
+
+    public int getNumberSim() {
+        return numberSim;
     }
 
     @Override

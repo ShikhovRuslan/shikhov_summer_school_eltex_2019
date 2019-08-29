@@ -30,28 +30,48 @@ public abstract class Device implements ICrudAction, Serializable {
         this.id = id;
     }
 
+    public UUID getId() {
+        return this.id;
+    }
+
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setPrice(double price) {
         this.price = price;
     }
 
+    public double getPrice() {
+        return price;
+    }
+
     public void setFirm(String firm) {
         this.firm = firm;
+    }
+
+    public String getFirm() {
+        return firm;
     }
 
     public void setModel(String model) {
         this.model = model;
     }
 
+    public String getModel() {
+        return model;
+    }
+
     public void setOs(String os) {
         this.os = os;
     }
 
-    public UUID getId() {
-        return this.id;
+    public String getOs() {
+        return os;
     }
 
     @Override

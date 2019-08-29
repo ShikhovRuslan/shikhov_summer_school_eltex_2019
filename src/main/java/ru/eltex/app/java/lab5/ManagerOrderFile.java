@@ -6,7 +6,7 @@ import java.io.*;
 
 public class ManagerOrderFile extends AManageOrder {
 
-    ManagerOrderFile(String filename) {
+    public ManagerOrderFile(String filename) {
         super(filename);
     }
 

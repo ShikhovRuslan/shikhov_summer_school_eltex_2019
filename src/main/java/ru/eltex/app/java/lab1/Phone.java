@@ -1,7 +1,5 @@
 package ru.eltex.app.java.lab1;
 
-import ru.eltex.app.java.lab1.TypePhone;
-
 import java.util.Scanner;
 
 public class Phone extends Device {
@@ -19,6 +17,10 @@ public class Phone extends Device {
 
     public void setType(TypePhone type) {
         this.type = type;
+    }
+
+    public TypePhone getType() {
+        return type;
     }
 
     @Override

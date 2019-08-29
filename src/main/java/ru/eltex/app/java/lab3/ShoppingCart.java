@@ -16,7 +16,7 @@ public class ShoppingCart<T extends List<Device>, U extends Set<UUID>> implement
     public ShoppingCart() {
         List<Device> products = new LinkedList<>();
         Set<UUID> ids = new HashSet<>();
-        this.products= (T) products;
+        this.products = (T) products;
         this.ids = (U) ids;
     }
 
@@ -26,6 +26,22 @@ public class ShoppingCart<T extends List<Device>, U extends Set<UUID>> implement
         for (Device device : products) {
             ids.add(device.getId());
         }
+    }
+
+    public void setProducts(T products) {
+        this.products = products;
+    }
+
+    public T getProducts() {
+        return products;
+    }
+
+    public void setIds(U ids) {
+        this.ids = ids;
+    }
+
+    public U getIds() {
+        return ids;
     }
 
     Device getLast() {
