@@ -2,7 +2,7 @@ package ru.eltex.app.java.lab6;
 
 public class CredentialsLauncher {
 
-    private static final long CREDENTIALS_WORKING_TIME = 5000;
+    private static final long CREDENTIALS_WORKING_TIME = 10000;
 
     public static void main(String[] args) {
         Server server = new Server();
