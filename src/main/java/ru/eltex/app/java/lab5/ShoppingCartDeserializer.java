@@ -6,6 +6,7 @@ import ru.eltex.app.java.lab3.ShoppingCart;
 
 import java.lang.reflect.Type;
 import java.util.Map;
+import java.util.UUID;
 
 public class ShoppingCartDeserializer implements JsonDeserializer<ShoppingCart> {
 
@@ -27,6 +28,7 @@ public class ShoppingCartDeserializer implements JsonDeserializer<ShoppingCart> 
                 }
             }
         }
+        cart.setId(context.deserialize(jObject.get("id"), UUID.class));
 
         return cart;
     }

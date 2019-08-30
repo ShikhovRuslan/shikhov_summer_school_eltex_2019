@@ -144,6 +144,7 @@ public abstract class Device implements ICrudAction, Serializable {
                 device = new Tablet();
                 break;
         }
+        device.create();
         return device;
     }
 

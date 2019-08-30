@@ -1,17 +1,12 @@
 package ru.eltex.app.java.lab3;
 
 import ru.eltex.app.java.lab1.Device;
-import ru.eltex.app.java.lab1.Phone;
-import ru.eltex.app.java.lab1.Smartphone;
-import ru.eltex.app.java.lab1.Tablet;
 import ru.eltex.app.java.lab2.Credentials;
 import ru.eltex.app.java.lab2.OrderStatus;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public class Order implements Serializable {
 
@@ -83,24 +78,11 @@ public class Order implements Serializable {
         return id;
     }
 
-    public static Order generateOrder(int type) {
-        ShoppingCart cart = new ShoppingCart();
+    public static Order generate(int type) {
+        ShoppingCart<LinkedList<Device>, HashSet<UUID>> cart = new ShoppingCart<>();
         Credentials user = new Credentials();
         user.create();
-        Device device = null;
-        switch (type) {
-            case (1):
-                device = new Phone();
-                break;
-            case (2):
-                device = new Smartphone();
-                break;
-            case (3):
-                device = new Tablet();
-                break;
-        }
-        device.create();
-        cart.add(device);
+        cart.add(Device.generate(type));
         return new Order(cart, user);
     }
 

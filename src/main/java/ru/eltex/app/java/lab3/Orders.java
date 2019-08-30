@@ -47,7 +47,7 @@ public class Orders<T extends List<Order>, U extends Map<Date, Order>> implement
         Iterator it1 = orders.iterator();
         while (it1.hasNext()) {
             Order order = (Order) it1.next();
-            if (order.getId() == id) {
+            if (id.compareTo(order.getId()) == 0) {
                 it1.remove();
                 date = order.getDateCreate();
                 dateOrder.remove(date);
@@ -70,7 +70,7 @@ public class Orders<T extends List<Order>, U extends Map<Date, Order>> implement
         Iterator it = orders.iterator();
         while (it.hasNext()) {
             Order order = (Order) it.next();
-            if (order.getCart().getId() == idCart) {
+            if (idCart.compareTo(order.getCart().getId()) == 0) {
                 order.getCart().add(device);
             }
         }

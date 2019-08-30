@@ -11,8 +11,6 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
 
-import static ru.eltex.app.java.lab3.Order.generateOrder;
-
 public class Credentials extends ru.eltex.app.java.lab2.Credentials implements Runnable {
 
     private Server server;
@@ -93,7 +91,7 @@ public class Credentials extends ru.eltex.app.java.lab2.Credentials implements R
             port = new Integer(new String(pack.getData()).substring(0, pack.getLength()));
 
             do {
-                order = generateOrder((int) (Math.random() * 3) + 1);
+                order = Order.generate((int) (Math.random() * 3) + 1);
                 timeWrite = sendOrder(order, address.getHostAddress(), port);
 
                 pack1 = connectToServer(server.getPortUdpReply() + number);
