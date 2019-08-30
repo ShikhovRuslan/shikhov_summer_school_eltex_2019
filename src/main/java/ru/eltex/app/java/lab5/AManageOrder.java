@@ -39,6 +39,20 @@ public abstract class AManageOrder implements IOrder {
         saveAll(ordersRead);
     }
 
+    public int delById(UUID idOrder) {
+        Orders ordersRead = readAll();
+        int error = ordersRead.delById(idOrder);
+        saveAll(ordersRead);
+        return error;
+    }
+
+    public UUID addToCart(UUID idCart){
+        Orders ordersRead = readAll();
+        UUID idDevice = ordersRead.addToCart(idCart);
+        saveAll(ordersRead);
+        return idDevice;
+    }
+
     @Override
     public Order readById(UUID id) {
         Orders ordersRead = readAll();

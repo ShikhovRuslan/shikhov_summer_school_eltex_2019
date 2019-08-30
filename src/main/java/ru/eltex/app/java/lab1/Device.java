@@ -131,4 +131,20 @@ public abstract class Device implements ICrudAction, Serializable {
         }
     }
 
+    public static Device generate(int type) {
+        Device device = null;
+        switch (type) {
+            case (1):
+                device = new Phone();
+                break;
+            case (2):
+                device = new Smartphone();
+                break;
+            case (3):
+                device = new Tablet();
+                break;
+        }
+        return device;
+    }
+
 }

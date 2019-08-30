@@ -41,6 +41,42 @@ public class Orders<T extends List<Order>, U extends Map<Date, Order>> implement
         dateOrder.put(order.getDateCreate(), order);
     }
 
+    public int delById(UUID id) {
+        Date date = null;
+        int error = 1;
+        Iterator it1 = orders.iterator();
+        while (it1.hasNext()) {
+            Order order = (Order) it1.next();
+            if (order.getId() == id) {
+                it1.remove();
+                date = order.getDateCreate();
+                dateOrder.remove(date);
+                error = 0;
+            }
+        }
+        Iterator it2 = orders.iterator();
+        while (it2.hasNext()) {
+            Order order = (Order) it2.next();
+            if (order.getDateCreate() == date) {
+                dateOrder.put(date, order);
+            }
+        }
+        return error;
+    }
+
+    public UUID addToCart(UUID idCart) {
+        Device device = Device.generate((int) (Math.random() * 3) + 1);
+        UUID idDevice = device.getId();
+        Iterator it = orders.iterator();
+        while (it.hasNext()) {
+            Order order = (Order) it.next();
+            if (order.getCart().getId() == idCart) {
+                order.getCart().add(device);
+            }
+        }
+        return idDevice;
+    }
+
     <T extends List<Device>, U extends Set<UUID>> void makePurchase(ShoppingCart<T, U> cart, Credentials user) {
         add(new Order(cart, user));
     }

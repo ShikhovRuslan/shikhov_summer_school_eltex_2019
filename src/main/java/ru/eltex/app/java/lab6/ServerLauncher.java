@@ -2,7 +2,6 @@ package ru.eltex.app.java.lab6;
 
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketTimeoutException;
 
 public class ServerLauncher {
 
@@ -33,7 +32,7 @@ public class ServerLauncher {
 
             while (true) {
                 System.out.println("ожидание клиентов\n");
-                serverSocket.setSoTimeout(server.getWaitingForCredentials());
+                //serverSocket.setSoTimeout(server.getWaitingForCredentials());
                 socket = serverSocket.accept();
                 System.out.println("клиент принят\n");
 
@@ -42,8 +41,8 @@ public class ServerLauncher {
                 threadServerConnection = new Thread(serverConnection);
                 threadServerConnection.start();
             }
-        } catch (SocketTimeoutException ste) {
-            System.out.println("ожидание подключения клиентов завершено");
+        //} catch (SocketTimeoutException ste) {
+        //    System.out.println("ожидание подключения клиентов завершено");
         } catch (Exception e) {
             System.out.println(e);
         }

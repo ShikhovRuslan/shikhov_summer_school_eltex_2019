@@ -8,14 +8,19 @@ import ru.eltex.app.java.lab2.Credentials;
 import ru.eltex.app.java.lab3.Order;
 import ru.eltex.app.java.lab3.Orders;
 import ru.eltex.app.java.lab3.ShoppingCart;
+
 import java.sql.Date;
 
 import java.util.*;
 
 public class Main {
 
-    static final String FILE_ORDERS = "/home/ruslan/summer_school_2019/labs_java/orders.ser";
-    static final String JSON_ORDERS = "/home/ruslan/summer_school_2019/labs_java/orders.json";
+    private static final String FILE_ORDERS = "/home/ruslan/summer_school_2019/labs_java/orders.ser";
+    private static final String JSON_ORDERS = "/home/ruslan/summer_school_2019/labs_java/orders.json";
+
+    public static String getJsonOrders() {
+        return JSON_ORDERS;
+    }
 
     public static void main(String[] args) {
         Orders<LinkedList<Order>, HashMap<Date, Order>> orders = new Orders<>();

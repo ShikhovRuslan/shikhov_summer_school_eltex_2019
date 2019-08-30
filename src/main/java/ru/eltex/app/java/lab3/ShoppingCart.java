@@ -12,12 +12,14 @@ public class ShoppingCart<T extends List<Device>, U extends Set<UUID>> implement
 
     private T products;
     private U ids;
+    private UUID id;
 
     public ShoppingCart() {
         List<Device> products = new LinkedList<>();
         Set<UUID> ids = new HashSet<>();
         this.products = (T) products;
         this.ids = (U) ids;
+        id = UUID.randomUUID();
     }
 
     public ShoppingCart(T products, U ids) {
@@ -26,6 +28,7 @@ public class ShoppingCart<T extends List<Device>, U extends Set<UUID>> implement
         for (Device device : products) {
             ids.add(device.getId());
         }
+        id = UUID.randomUUID();
     }
 
     public void setProducts(T products) {
@@ -42,6 +45,14 @@ public class ShoppingCart<T extends List<Device>, U extends Set<UUID>> implement
 
     public U getIds() {
         return ids;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public UUID getId() {
+        return id;
     }
 
     Device getLast() {
