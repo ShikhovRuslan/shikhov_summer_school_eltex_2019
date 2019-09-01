@@ -19,7 +19,7 @@ public class Application {
 
     public static void main(String[] args) {
         Order order1, order2;
-        Orders<LinkedList<Order>, HashMap<Date, Order>> orders = new Orders<>();
+        Orders<LinkedList<Order>, HashMap<Date, Order>> orders = new Orders<>(new LinkedList<>(), new HashMap<>());
         ManagerOrderJSON moj;
 
         order1 = Order.generate((int) (Math.random() * 3) + 1);
@@ -28,7 +28,7 @@ public class Application {
         orders.add(order1);
         orders.add(order2);
 
-        moj = new ManagerOrderJSON(Main.getJsonOrders());
+        moj = new ManagerOrderJSON(Main.getJsonOrders(), new Orders<>(new LinkedList<>(), new HashMap<>()));
         moj.saveAll(orders);
 
         SpringApplication.run(Application.class, args);

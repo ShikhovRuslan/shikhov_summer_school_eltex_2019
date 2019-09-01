@@ -9,29 +9,38 @@ import ru.eltex.app.java.lab3.Orders;
 import ru.eltex.app.java.lab5.Main;
 import ru.eltex.app.java.lab5.ManagerOrderJSON;
 
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/")
 public class OrdersController {
 
+    private static final String ERROR_MESSAGE = "ERROR: wrong value of command!";
+
     private Orders showReadAll() {
-        ManagerOrderJSON moj = new ManagerOrderJSON(Main.getJsonOrders());
+        ManagerOrderJSON moj = new ManagerOrderJSON(Main.getJsonOrders(), new Orders<>(new LinkedList<>(), new HashMap<>()));
         return moj.readAll();
     }
 
     private Order showReadById(UUID orderId) {
-        ManagerOrderJSON moj = new ManagerOrderJSON(Main.getJsonOrders());
+        ManagerOrderJSON moj = new ManagerOrderJSON(Main.getJsonOrders(), new Orders<>(new LinkedList<>(), new HashMap<>()));
         return moj.readById(orderId);
     }
 
     private int showDelById(UUID orderId) {
-        ManagerOrderJSON moj = new ManagerOrderJSON(Main.getJsonOrders());
-        return moj.delById(orderId);
+        ManagerOrderJSON moj = new ManagerOrderJSON(Main.getJsonOrders(), new Orders<>(new LinkedList<>(), new HashMap<>()));
+        try {
+            return moj.delById(orderId);
+        } catch (DelException e) {
+            System.out.println(e.getMessage());
+        }
+        return 1;
     }
 
     private UUID showAddToCart(UUID cartId) {
-        ManagerOrderJSON moj = new ManagerOrderJSON(Main.getJsonOrders());
+        ManagerOrderJSON moj = new ManagerOrderJSON(Main.getJsonOrders(), new Orders<>(new LinkedList<>(), new HashMap<>()));
         return moj.addToCart(cartId);
     }
 
@@ -40,7 +49,7 @@ public class OrdersController {
         if (command.equals("readall")) {
             return showReadAll();
         } else {
-            return "ERROR: wrong value of command!";
+            return ERROR_MESSAGE;
         }
     }
 
@@ -52,7 +61,7 @@ public class OrdersController {
             case ("delById"):
                 return showDelById(orderId);
             default:
-                return "ERROR: wrong value of command!";
+                return ERROR_MESSAGE;
         }
     }
 
@@ -61,7 +70,7 @@ public class OrdersController {
         if (command.equals("addToCard")) {
             return showAddToCart(cartId);
         } else {
-            return "ERROR: wrong value of command!";
+            return ERROR_MESSAGE;
         }
     }
 

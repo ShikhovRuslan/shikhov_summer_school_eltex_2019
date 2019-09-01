@@ -7,6 +7,7 @@ import ru.eltex.app.java.lab2.Credentials;
 import ru.eltex.app.java.lab3.Order;
 import ru.eltex.app.java.lab3.Orders;
 import ru.eltex.app.java.lab3.ShoppingCart;
+import ru.eltex.app.java.lab7.DelException;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -58,9 +59,10 @@ public class ManagerOrderJSON extends AManageOrder {
         return ordersRead;
     }
 
-    public int delById(UUID idOrder) {
+    public int delById(UUID idOrder) throws DelException {
         Orders ordersRead = readAll();
         int error = ordersRead.delById(idOrder);
+        if (error == 1) throw new DelException("Заказ с ID=" + idOrder + " не найден!");
         saveAll(ordersRead);
         return error;
     }
