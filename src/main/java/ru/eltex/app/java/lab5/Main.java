@@ -10,7 +10,6 @@ import ru.eltex.app.java.lab3.Orders;
 import ru.eltex.app.java.lab3.ShoppingCart;
 
 import java.sql.Date;
-
 import java.util.*;
 
 public class Main {
@@ -23,14 +22,14 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        Orders<LinkedList<Order>, HashMap<Date, Order>> orders = new Orders<>();
-        Orders<LinkedList<Order>, HashMap<Date, Order>> ordersReadMof, ordersReadMoj;
+        Orders<LinkedList<Order>, HashMap<Date, Order>> orders = new Orders<>(new LinkedList<>(), new HashMap<>());
+        Orders ordersReadMof, ordersReadMoj;
         Order order2ReadMof, order2ReadMoj, orderRandomReadMof, orderRandomReadMoj, order1, order2, orderInstead1, orderWithNewId;
         UUID idRandom = UUID.randomUUID();
-        ShoppingCart<ArrayList<Device>, TreeSet<UUID>> cart1 = new ShoppingCart();
-        ShoppingCart<ArrayList<Device>, TreeSet<UUID>> cart2 = new ShoppingCart();
-        ShoppingCart<ArrayList<Device>, TreeSet<UUID>> cart3 = new ShoppingCart();
-        ShoppingCart<ArrayList<Device>, TreeSet<UUID>> cart4 = new ShoppingCart();
+        ShoppingCart<ArrayList<Device>, TreeSet<UUID>> cart1 = new ShoppingCart<>();
+        ShoppingCart<ArrayList<Device>, TreeSet<UUID>> cart2 = new ShoppingCart<>();
+        ShoppingCart<ArrayList<Device>, TreeSet<UUID>> cart3 = new ShoppingCart<>();
+        ShoppingCart<ArrayList<Device>, TreeSet<UUID>> cart4 = new ShoppingCart<>();
         Credentials user1 = new Credentials();
         Credentials user2 = new Credentials();
         Credentials user3 = new Credentials();
@@ -93,7 +92,7 @@ public class Main {
         ordersReadMof.show();
 
         System.out.println("\n\n---------------------ФОРМАТ JSON---------------------\n\n\n");
-        ManagerOrderJSON moj = new ManagerOrderJSON(JSON_ORDERS);
+        ManagerOrderJSON moj = new ManagerOrderJSON(JSON_ORDERS, new Orders<>(new Vector<>(), new LinkedHashMap<>()));
         moj.saveAll(orders);
         order2ReadMoj = moj.readById(order2.getId());
         order2ReadMoj.show();

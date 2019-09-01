@@ -9,11 +9,18 @@ import java.util.Map;
 
 public class OrdersDeserializer implements JsonDeserializer<Orders> {
 
+    private ManagerOrderJSON moj;
+
+    OrdersDeserializer(ManagerOrderJSON moj) {
+        this.moj = moj;
+    }
+
     @Override
     public Orders deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jObject = json.getAsJsonObject();
 
-        Orders orders = new Orders();
+        moj.getOrdersTmp().getOrders().clear();
+        moj.getOrdersTmp().getDateOrder().clear();
         Order order;
 
         for (Map.Entry<String, JsonElement> entry : jObject.entrySet()) {
@@ -23,12 +30,12 @@ public class OrdersDeserializer implements JsonDeserializer<Orders> {
 
                 for (JsonElement element : jArray) {
                     order = context.deserialize(element, Order.class);
-                    orders.add(order);
+                    moj.getOrdersTmp().add(order);
                 }
             }
         }
 
-        return orders;
+        return moj.getOrdersTmp();
     }
 
 }

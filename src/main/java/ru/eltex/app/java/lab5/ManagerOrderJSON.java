@@ -16,8 +16,15 @@ import java.util.UUID;
 
 public class ManagerOrderJSON extends AManageOrder {
 
-    public ManagerOrderJSON(String filename) {
+    private Orders ordersTmp;
+
+    public ManagerOrderJSON(String filename, Orders ordersTmp) {
         super(filename);
+        this.ordersTmp = ordersTmp;
+    }
+
+    Orders getOrdersTmp() {
+        return ordersTmp;
     }
 
     @Override
@@ -35,7 +42,7 @@ public class ManagerOrderJSON extends AManageOrder {
     @Override
     public Orders readAll() {
         Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Orders.class, new OrdersDeserializer())
+                .registerTypeAdapter(Orders.class, new OrdersDeserializer(this))
                 .registerTypeAdapter(Order.class, new OrderDeserializer())
                 .registerTypeAdapter(ShoppingCart.class, new ShoppingCartDeserializer())
                 .registerTypeAdapter(Credentials.class, new CredentialsDeserializer())
@@ -58,7 +65,7 @@ public class ManagerOrderJSON extends AManageOrder {
         return error;
     }
 
-    public UUID addToCart(UUID idCart){
+    public UUID addToCart(UUID idCart) {
         Orders ordersRead = readAll();
         UUID idDevice = ordersRead.addToCart(idCart);
         saveAll(ordersRead);
