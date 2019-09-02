@@ -8,6 +8,7 @@ import ru.eltex.app.java.lab3.Order;
 import ru.eltex.app.java.lab3.Orders;
 import ru.eltex.app.java.lab3.ShoppingCart;
 import ru.eltex.app.java.lab7.DelException;
+import ru.eltex.app.java.lab7.OrdersController;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -41,7 +42,7 @@ public class ManagerOrderJSON extends AManageOrder {
     }
 
     @Override
-    public Orders readAll() {
+    public Orders readAll() throws DelException {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Orders.class, new OrdersDeserializer(this))
                 .registerTypeAdapter(Order.class, new OrderDeserializer())
@@ -49,25 +50,26 @@ public class ManagerOrderJSON extends AManageOrder {
                 .registerTypeAdapter(Credentials.class, new CredentialsDeserializer())
                 .registerTypeAdapter(Device.class, new DeviceDeserializer())
                 .create();
-        Orders ordersRead = new Orders();
+        Orders ordersRead;
         try {
             Reader reader = new FileReader(filename);
             ordersRead = gson.fromJson(reader, Orders.class);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new DelException(OrdersController.getError2Message());
         }
         return ordersRead;
     }
 
-    public int delById(UUID idOrder) throws DelException {
+    public void delById(UUID idOrder) throws DelException {
         Orders ordersRead = readAll();
         int error = ordersRead.delById(idOrder);
-        if (error == 1) throw new DelException("Заказ с ID=" + idOrder + " не найден!");
+        if (error == 1) {
+            throw new DelException(OrdersController.getError1Message());
+        }
         saveAll(ordersRead);
-        return error;
     }
 
-    public UUID addToCart(UUID idCart) {
+    public UUID addToCart(UUID idCart) throws DelException {
         Orders ordersRead = readAll();
         UUID idDevice = ordersRead.addToCart(idCart);
         saveAll(ordersRead);

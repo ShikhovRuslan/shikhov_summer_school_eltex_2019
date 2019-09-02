@@ -8,6 +8,7 @@ import ru.eltex.app.java.lab2.Credentials;
 import ru.eltex.app.java.lab3.Order;
 import ru.eltex.app.java.lab3.Orders;
 import ru.eltex.app.java.lab3.ShoppingCart;
+import ru.eltex.app.java.lab7.DelException;
 
 import java.sql.Date;
 import java.util.*;
@@ -21,9 +22,9 @@ public class Main {
         return JSON_ORDERS;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws DelException {
         Orders<LinkedList<Order>, HashMap<Date, Order>> orders = new Orders<>(new LinkedList<>(), new HashMap<>());
-        Orders ordersReadMof, ordersReadMoj;
+        Orders ordersReadMof, ordersReadMoj = new Orders();
         Order order2ReadMof, order2ReadMoj, orderRandomReadMof, orderRandomReadMoj, order1, order2, orderInstead1, orderWithNewId;
         UUID idRandom = UUID.randomUUID();
         ShoppingCart<ArrayList<Device>, TreeSet<UUID>> cart1 = new ShoppingCart<>();

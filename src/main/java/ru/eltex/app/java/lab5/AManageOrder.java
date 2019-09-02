@@ -2,6 +2,7 @@ package ru.eltex.app.java.lab5;
 
 import ru.eltex.app.java.lab3.Order;
 import ru.eltex.app.java.lab3.Orders;
+import ru.eltex.app.java.lab7.DelException;
 
 import java.sql.Date;
 import java.util.Iterator;
@@ -18,7 +19,12 @@ public abstract class AManageOrder implements IOrder {
 
     @Override
     public void saveById(Order order) {
-        Orders ordersRead = readAll();
+        Orders ordersRead = null;
+        try {
+            ordersRead = readAll();
+        } catch (DelException e) {
+            System.out.println(e.getMessage());
+        }
         Date date = null;
         Iterator it1 = ordersRead.getOrders().iterator();
         while (it1.hasNext()) {
@@ -40,8 +46,9 @@ public abstract class AManageOrder implements IOrder {
     }
 
     @Override
-    public Order readById(UUID id) {
-        Orders ordersRead = readAll();
+    public Order readById(UUID id) throws DelException {
+        Orders ordersRead;
+        ordersRead = readAll();
         Order order = new Order();
         boolean isFound = false;
         for (Order ord : (List<Order>) ordersRead.getOrders()) {

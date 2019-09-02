@@ -17,60 +17,110 @@ import java.util.UUID;
 @RequestMapping("/")
 public class OrdersController {
 
-    private static final String ERROR_MESSAGE = "ERROR: wrong value of command!";
+    private static final String ERROR1_MESSAGE = "ОШИБКА 1. Заказ не найден!";
+    private static final String ERROR2_MESSAGE = "ОШИБКА 2. Файл " + Main.getJsonOrders() + " повреждён!";
+    private static final String ERROR3_MESSAGE = "ОШИБКА 3. Неправильная команда!";
+    private static final String ERROR3_INPUT_MESSAGE = "ОШИБКА 3. ID введён неправильно!";
 
-    private Orders showReadAll() {
-        ManagerOrderJSON moj = new ManagerOrderJSON(Main.getJsonOrders(), new Orders<>(new LinkedList<>(), new HashMap<>()));
-        return moj.readAll();
+    public static String getError1Message() {
+        return ERROR1_MESSAGE;
     }
 
-    private Order showReadById(UUID orderId) {
-        ManagerOrderJSON moj = new ManagerOrderJSON(Main.getJsonOrders(), new Orders<>(new LinkedList<>(), new HashMap<>()));
-        return moj.readById(orderId);
+    public static String getError2Message() {
+        return ERROR2_MESSAGE;
     }
 
-    private int showDelById(UUID orderId) {
-        ManagerOrderJSON moj = new ManagerOrderJSON(Main.getJsonOrders(), new Orders<>(new LinkedList<>(), new HashMap<>()));
+    private UUID checkingId(String str) throws DelException {
+        UUID id;
         try {
-            return moj.delById(orderId);
-        } catch (DelException e) {
-            System.out.println(e.getMessage());
+            id = UUID.fromString(str);
+        } catch (IllegalArgumentException e) {
+            throw new DelException(ERROR3_INPUT_MESSAGE);
         }
-        return 1;
+        return id;
     }
 
-    private UUID showAddToCart(UUID cartId) {
+    private Object showReadAll() throws DelException {
         ManagerOrderJSON moj = new ManagerOrderJSON(Main.getJsonOrders(), new Orders<>(new LinkedList<>(), new HashMap<>()));
-        return moj.addToCart(cartId);
+        Orders ordersRead;
+        ordersRead = moj.readAll();
+        return ordersRead;
+    }
+
+    private Object showReadById(UUID orderId) throws DelException {
+        ManagerOrderJSON moj = new ManagerOrderJSON(Main.getJsonOrders(), new Orders<>(new LinkedList<>(), new HashMap<>()));
+        Order orderRead;
+        orderRead = moj.readById(orderId);
+        return orderRead;
+    }
+
+    private String showDelById(UUID orderId) throws DelException {
+        ManagerOrderJSON moj = new ManagerOrderJSON(Main.getJsonOrders(), new Orders<>(new LinkedList<>(), new HashMap<>()));
+        moj.delById(orderId);
+        return "Заказ c ID=" + orderId + " удалён.";
+    }
+
+    private Object showAddToCart(UUID cartId) throws DelException {
+        ManagerOrderJSON moj = new ManagerOrderJSON(Main.getJsonOrders(), new Orders<>(new LinkedList<>(), new HashMap<>()));
+        UUID idDevice;
+        idDevice = moj.addToCart(cartId);
+        return idDevice;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET, params = {"command"})
     private Object show1(@RequestParam("command") String command) {
-        if (command.equals("readall")) {
-            return showReadAll();
-        } else {
-            return ERROR_MESSAGE;
+        try {
+            switch (command) {
+                case ("readall"):
+                    return showReadAll();
+                default:
+                    throw new DelException(ERROR3_MESSAGE);
+            }
+        } catch (DelException e) {
+            return e.getMessage();
         }
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET, params = {"command", "order_id"})
-    private Object show2(@RequestParam("command") String command, @RequestParam("order_id") UUID orderId) {
-        switch (command) {
-            case ("readById"):
-                return showReadById(orderId);
-            case ("delById"):
-                return showDelById(orderId);
-            default:
-                return ERROR_MESSAGE;
+    private Object show2(@RequestParam("command") String command, @RequestParam("order_id") String orderIdString) {
+        UUID orderId;
+        try {
+            orderId = checkingId(orderIdString);
+            switch (command) {
+                case ("readById"):
+                    return showReadById(orderId);
+                case ("delById"):
+                    return showDelById(orderId);
+                default:
+                    throw new DelException(ERROR3_MESSAGE);
+            }
+        } catch (DelException e) {
+            return e.getMessage();
         }
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET, params = {"command", "card_id"})
-    private Object show3(@RequestParam("command") String command, @RequestParam("card_id") UUID cartId) {
-        if (command.equals("addToCard")) {
-            return showAddToCart(cartId);
-        } else {
-            return ERROR_MESSAGE;
+    private Object show3(@RequestParam("command") String command, @RequestParam("card_id") String cartIdString) {
+        UUID cartId;
+        try {
+            cartId = checkingId(cartIdString);
+            switch (command) {
+                case ("addToCard"):
+                    return showAddToCart(cartId);
+                default:
+                    throw new DelException(ERROR3_MESSAGE);
+            }
+        } catch (DelException e) {
+            return e.getMessage();
+        }
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    private String showInvalidCommand() {
+        try {
+            throw new DelException(ERROR3_MESSAGE);
+        } catch (DelException e) {
+            return e.getMessage();
         }
     }
 
