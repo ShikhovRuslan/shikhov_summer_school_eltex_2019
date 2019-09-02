@@ -2,8 +2,15 @@ package ru.eltex.app.java.lab7;
 
 public class DelException extends Exception {
 
-    public DelException(String message) {
-        super(message);
+    private int errorCode;
+
+    public DelException(int errorCode) {
+        super(ErrorMessages.values()[errorCode - 1].toString());
+        this.errorCode = errorCode;
+    }
+
+    int getErrorCode() {
+        return errorCode;
     }
 
 }

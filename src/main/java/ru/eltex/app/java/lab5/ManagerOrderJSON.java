@@ -8,7 +8,6 @@ import ru.eltex.app.java.lab3.Order;
 import ru.eltex.app.java.lab3.Orders;
 import ru.eltex.app.java.lab3.ShoppingCart;
 import ru.eltex.app.java.lab7.DelException;
-import ru.eltex.app.java.lab7.OrdersController;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -55,7 +54,7 @@ public class ManagerOrderJSON extends AManageOrder {
             Reader reader = new FileReader(filename);
             ordersRead = gson.fromJson(reader, Orders.class);
         } catch (Exception e) {
-            throw new DelException(OrdersController.getError2Message());
+            throw new DelException(2);
         }
         return ordersRead;
     }
@@ -64,7 +63,7 @@ public class ManagerOrderJSON extends AManageOrder {
         Orders ordersRead = readAll();
         int error = ordersRead.delById(idOrder);
         if (error == 1) {
-            throw new DelException(OrdersController.getError1Message());
+            throw new DelException(1);
         }
         saveAll(ordersRead);
     }
