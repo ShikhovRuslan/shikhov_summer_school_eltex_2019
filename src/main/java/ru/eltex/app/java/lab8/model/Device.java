@@ -1,27 +1,34 @@
-package ru.eltex.app.java.lab8;
+package ru.eltex.app.java.lab8.model;
 
-import javax.persistence.*;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.UUID;
 
-@Entity
-@Table(name = "DEVICE")
+@MappedSuperclass
 public class Device implements Serializable {
 
     @Id
     @GeneratedValue
-    @Column(name = "DEVICE_ID")
     private UUID id;
-    @Column(name = "NAME")
+
+    @NotNull
     private String name;
-    @Column(name = "PRICE")
+
+    @NotNull
     private double price;
+
     private static int count;
-    @Column(name = "FIRM")
+
+    @NotNull
     private String firm;
-    @Column(name = "MODEL")
+
+    @NotNull
     private String model;
-    @Column(name = "OS")
+
+    @NotNull
     private String os;
 
     public Device() {
@@ -38,60 +45,60 @@ public class Device implements Serializable {
         this.os = os;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
     public UUID getId() {
         return this.id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public double getPrice() {
         return price;
     }
 
-    public static void setCount(int count) {
-        Device.count = count;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public static int getCount() {
         return count;
     }
 
-    public void setFirm(String firm) {
-        this.firm = firm;
+    public static void setCount(int count) {
+        Device.count = count;
     }
 
     public String getFirm() {
         return firm;
     }
 
-    public void setModel(String model) {
-        this.model = model;
+    public void setFirm(String firm) {
+        this.firm = firm;
     }
 
     public String getModel() {
         return model;
     }
 
-    public void setOs(String os) {
-        this.os = os;
+    public void setModel(String model) {
+        this.model = model;
     }
 
     public String getOs() {
         return os;
+    }
+
+    public void setOs(String os) {
+        this.os = os;
     }
 
 }

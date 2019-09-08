@@ -1,31 +1,43 @@
-package ru.eltex.app.java.lab8;
+package ru.eltex.app.java.lab8.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.data.annotation.CreatedDate;
 import ru.eltex.app.java.lab2.OrderStatus;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.UUID;
 
 @Entity
-@Table(name = "ORDERS")
+@Table(name = "orders")
 public class Order implements Serializable {
 
     @Id
     @GeneratedValue
-    @Column(name = "ORDER_ID")
     private UUID id;
-    @Column(name = "STATUS")
+
+    @NotNull
     private OrderStatus status;
-    @Column(name = "DATE_CREATE")
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false, updatable = false)
+    @CreatedDate
     private Date dateCreate;
-    @Column(name = "TIME_WAITING")
+
+    @NotNull
     private long timeWaiting;
-    @OneToOne
-    @JoinColumn(name="SHOPPING_CART_ID")
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "cart_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private ShoppingCart cart;
-    @ManyToOne(cascade= {CascadeType.REFRESH}, fetch=FetchType.LAZY)
-    @JoinColumn(name="CREDENTIALS_ID")
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Credentials user;
 
     public Order() {
@@ -41,52 +53,52 @@ public class Order implements Serializable {
         this.user = user;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
     public UUID getId() {
         return id;
     }
 
-    public void setStatus(OrderStatus status) {
-        this.status = status;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public OrderStatus getStatus() {
         return status;
     }
 
-    public void setDateCreate(Date dateCreate) {
-        this.dateCreate = dateCreate;
+    public void setStatus(OrderStatus status) {
+        this.status = status;
     }
 
     public Date getDateCreate() {
         return dateCreate;
     }
 
-    public void setTimeWaiting(long timeWaiting) {
-        this.timeWaiting = timeWaiting;
+    public void setDateCreate(Date dateCreate) {
+        this.dateCreate = dateCreate;
     }
 
     public long getTimeWaiting() {
         return timeWaiting;
     }
 
-    public void setCart(ShoppingCart cart) {
-        this.cart = cart;
+    public void setTimeWaiting(long timeWaiting) {
+        this.timeWaiting = timeWaiting;
     }
 
     public ShoppingCart getCart() {
         return cart;
     }
 
-    public void setUser(Credentials user) {
-        this.user = user;
+    public void setCart(ShoppingCart cart) {
+        this.cart = cart;
     }
 
     public Credentials getUser() {
         return user;
+    }
+
+    public void setUser(Credentials user) {
+        this.user = user;
     }
 
 }

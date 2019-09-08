@@ -1,24 +1,28 @@
-package ru.eltex.app.java.lab8;
+package ru.eltex.app.java.lab8.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
-@Table(name = "CREDENTIALS")
+@Table(name = "credentials")
 public class Credentials implements Serializable {
 
     @Id
     @GeneratedValue
-    @Column(name = "SHOPPING_CART_ID")
     private UUID id;
-    @Column(name = "SURNAME")
+
+    @NotNull
     private String surname;
-    @Column(name = "NAME")
+
+    @NotNull
     private String name;
-    @Column(name = "PATRONYMIC")
+
+    @NotNull
     private String patronymic;
-    @Column(name = "EMAIL")
+
+    @NotNull
     private String email;
 
     public Credentials() {
@@ -33,44 +37,44 @@ public class Credentials implements Serializable {
         this.email = email;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
     public UUID getId() {
         return id;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public String getSurname() {
         return surname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setPatronymic(String patronymic) {
-        this.patronymic = patronymic;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPatronymic() {
         return patronymic;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPatronymic(String patronymic) {
+        this.patronymic = patronymic;
     }
 
     public String getEmail() {
         return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
 }
