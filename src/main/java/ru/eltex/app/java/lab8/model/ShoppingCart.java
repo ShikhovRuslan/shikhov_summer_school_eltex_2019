@@ -1,9 +1,8 @@
 package ru.eltex.app.java.lab8.model;
 
-import ru.eltex.app.java.lab1.Device;
-
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -16,19 +15,23 @@ public class ShoppingCart implements Serializable {
     @GeneratedValue
     private UUID id;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Device> products;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Device> products = new LinkedList<>();
 
-    private Set<UUID> ids;
+    //private Set<UUID> ids;
 
     public ShoppingCart() {
 
     }
 
+    public ShoppingCart(UUID id) {
+        this.id = id;
+    }
+
     public ShoppingCart(UUID id, List<Device> products, Set<UUID> ids) {
         this.id = id;
         this.products = products;
-        this.ids = ids;
+        //this.ids = ids;
     }
 
     public UUID getId() {
@@ -46,13 +49,18 @@ public class ShoppingCart implements Serializable {
     public void setProducts(List<Device> products) {
         this.products = products;
     }
-
+/*
     public Set<UUID> getIds() {
         return ids;
     }
 
     public void setIds(Set<UUID> ids) {
         this.ids = ids;
+    }
+*/
+    public boolean add(Device device) {
+        //ids.add(device.getId());
+        return products.add(device);
     }
 
 }

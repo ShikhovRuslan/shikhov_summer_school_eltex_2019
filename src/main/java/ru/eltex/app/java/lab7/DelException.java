@@ -9,7 +9,7 @@ public class DelException extends Exception {
         this.errorCode = errorCode;
     }
 
-    int getErrorCode() {
+    public int getErrorCode() {
         return errorCode;
     }
 

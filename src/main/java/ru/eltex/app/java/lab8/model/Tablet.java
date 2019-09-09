@@ -1,15 +1,16 @@
 package ru.eltex.app.java.lab8.model;
 
-import javax.validation.constraints.NotNull;
+import javax.persistence.Entity;
 import java.awt.*;
 
+@Entity
 public class Tablet extends Device {
 
-    @NotNull
-    private String videoProcessor;
+    //@NotNull
+    //private String videoProcessor;
 
-    @NotNull
-    private Dimension screenResolution;
+    //@NotNull
+    //private Dimension screenResolution;
 
     public Tablet() {
 
@@ -17,10 +18,10 @@ public class Tablet extends Device {
 
     public Tablet(String videoProcessor, Dimension screenResolution) {
         super();
-        this.videoProcessor = videoProcessor;
-        this.screenResolution = screenResolution;
+        //this.videoProcessor = videoProcessor;
+        //this.screenResolution = screenResolution;
     }
-
+/*
     public String getVideoProcessor() {
         return videoProcessor;
     }
@@ -36,5 +37,5 @@ public class Tablet extends Device {
     public void setScreenResolution(Dimension screenResolution) {
         this.screenResolution = screenResolution;
     }
-
+*/
 }

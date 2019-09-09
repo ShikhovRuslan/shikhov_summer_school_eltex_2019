@@ -1,13 +1,16 @@
 package ru.eltex.app.java.lab8.model;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.UUID;
 
-@MappedSuperclass
+import static ru.eltex.app.java.lab1.Device.getRandom;
+
+@Entity
+//@MappedSuperclass
 public class Device implements Serializable {
 
     @Id
@@ -99,6 +102,34 @@ public class Device implements Serializable {
 
     public void setOs(String os) {
         this.os = os;
+    }
+
+    public void create() {
+        count++;
+
+        name = getRandom(new String[]{"n1", "n2", "n3"});
+        price = getRandom(new Double[]{19.5, 0.02, 445.0});
+        firm = getRandom(new String[]{"f1", "f2", "f3"});
+        model = getRandom(new String[]{"m1", "m2", "m3"});
+        os = getRandom(new String[]{"os1", "os2", "os3"});
+    }
+
+    public static Device generate(int type) {
+        Device device = null;
+        switch (type) {
+            case (1):
+                device = new Phone();
+                break;
+            case (2):
+                device = new Smartphone();
+                break;
+            case (3):
+                device = new Tablet();
+                break;
+        }
+        device.create();
+        device.setId(UUID.randomUUID());
+        return device;
     }
 
 }

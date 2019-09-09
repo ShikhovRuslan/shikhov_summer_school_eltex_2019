@@ -22,7 +22,7 @@ public class Order implements Serializable {
     @NotNull
     private OrderStatus status;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    //@Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false, updatable = false)
     @CreatedDate
     private Date dateCreate;
@@ -30,10 +30,10 @@ public class Order implements Serializable {
     @NotNull
     private long timeWaiting;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "cart_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private ShoppingCart cart;
+//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+//    @JoinColumn(name = "cart_id")
+//    @OnDelete(action = OnDeleteAction.CASCADE)
+//    private ShoppingCart cart;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id")
@@ -44,12 +44,17 @@ public class Order implements Serializable {
 
     }
 
-    public Order(UUID id, OrderStatus status, Date dateCreate, long timeWaiting, ShoppingCart cart, Credentials user) {
+    public Order(Credentials user) {
+        //this.cart = cart;
+        this.user = user;
+    }
+
+    public Order(UUID id, OrderStatus status, Date dateCreate, long timeWaiting, Credentials user) {
         this.id = id;
         this.status = status;
         this.dateCreate = dateCreate;
         this.timeWaiting = timeWaiting;
-        this.cart = cart;
+        //this.cart = cart;
         this.user = user;
     }
 
@@ -84,7 +89,7 @@ public class Order implements Serializable {
     public void setTimeWaiting(long timeWaiting) {
         this.timeWaiting = timeWaiting;
     }
-
+/*
     public ShoppingCart getCart() {
         return cart;
     }
@@ -92,13 +97,21 @@ public class Order implements Serializable {
     public void setCart(ShoppingCart cart) {
         this.cart = cart;
     }
-
+*/
     public Credentials getUser() {
         return user;
     }
 
     public void setUser(Credentials user) {
         this.user = user;
+    }
+
+    public static Order generate(int type) {
+        //ShoppingCart cart = new ShoppingCart(UUID.randomUUID());
+        Credentials user = new Credentials(UUID.randomUUID());
+        user.create();
+        //cart.add(Device.generate(type));
+        return new Order(UUID.randomUUID(), OrderStatus.WAITING, new Date(System.currentTimeMillis()), 0, user);
     }
 
 }
