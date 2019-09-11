@@ -1,7 +1,5 @@
 package ru.eltex.app.java.lab8.model;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
 import ru.eltex.app.java.lab2.OrderStatus;
 
@@ -16,13 +14,12 @@ import java.util.UUID;
 public class Order implements Serializable {
 
     @Id
-    @GeneratedValue
+    @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
     @NotNull
     private OrderStatus status;
 
-    //@Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false, updatable = false)
     @CreatedDate
     private Date dateCreate;
@@ -35,9 +32,8 @@ public class Order implements Serializable {
 //    @OnDelete(action = OnDeleteAction.CASCADE)
 //    private ShoppingCart cart;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private Credentials user;
 
     public Order() {
@@ -45,7 +41,6 @@ public class Order implements Serializable {
     }
 
     public Order(Credentials user) {
-        //this.cart = cart;
         this.user = user;
     }
 
@@ -104,14 +99,6 @@ public class Order implements Serializable {
 
     public void setUser(Credentials user) {
         this.user = user;
-    }
-
-    public static Order generate(int type) {
-        //ShoppingCart cart = new ShoppingCart(UUID.randomUUID());
-        Credentials user = new Credentials(UUID.randomUUID());
-        user.create();
-        //cart.add(Device.generate(type));
-        return new Order(UUID.randomUUID(), OrderStatus.WAITING, new Date(System.currentTimeMillis()), 0, user);
     }
 
 }

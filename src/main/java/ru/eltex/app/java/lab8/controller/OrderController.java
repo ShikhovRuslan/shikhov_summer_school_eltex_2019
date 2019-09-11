@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import ru.eltex.app.java.lab2.OrderStatus;
 import ru.eltex.app.java.lab7.DelException;
 import ru.eltex.app.java.lab8.exception.ResourceNotFoundException;
 import ru.eltex.app.java.lab8.model.Credentials;
@@ -12,14 +13,15 @@ import ru.eltex.app.java.lab8.model.Order;
 import ru.eltex.app.java.lab8.repository.CredentialsRepository;
 import ru.eltex.app.java.lab8.repository.OrderRepository;
 
-import java.util.LinkedList;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 @RestController
-public class Controller {
+public class OrderController {
 
     private static final String INFO_MESSAGE = "Checking the command entered by the user. ";
     private static final String ERROR_MESSAGE = "Sorry, something went wrong!";
@@ -45,35 +47,67 @@ public class Controller {
         }).orElseThrow(new Supplier<ResourceNotFoundException>() {
             @Override
             public ResourceNotFoundException get() {
-                return new ResourceNotFoundException("UserId " + userId + " not found");
+                return new ResourceNotFoundException("Пользователь с ID=" + userId + " не найден!");
             }
         });
     }
 
-    private String fillInDatabase() {
-        List<Order> ordersList = new LinkedList<>();
+    private Object fillInDatabase() {
+        Credentials user = new Credentials();
+        user.setId(UUID.randomUUID());
+        user.setEmail("qw");
+        user.setName("wq");
+        user.setPatronymic("rerer");
+        user.setSurname("rertfd");
+        userRepository.saveAndFlush(user);
 
+        Order order = new Order();
+        order.setId(UUID.randomUUID());
+        order.setUser(user);
+        order.setDateCreate(new Date(System.currentTimeMillis()));
+        order.setTimeWaiting(5L);
+        order.setStatus(OrderStatus.DONE);
+        orderRepository.saveAndFlush(order);
+
+        List<Order> orders = new ArrayList<>();
+        orders = orderRepository.findAll();
+
+        return orders;
+
+        /*
         Order order1 = Order.generate((int) (Math.random() * 3) + 1);
-        Order order2 = Order.generate((int) (Math.random() * 3) + 1);
-        order2.setId(UUID.fromString("00000000-0000-0000-0000-000000000021"));
+        //Order order2 = Order.generate((int) (Math.random() * 3) + 1);
+        //order2.setId(UUID.fromString("00000000-0000-0000-0000-000000000021"));
 
         ordersList.add(order1);
-        ordersList.add(order2);
+        //ordersList.add(order2);
 
         //cartRepository.save(order1.getCart());
         //cartRepository.save(order2.getCart());
-        userRepository.save(order1.getUser());
-        System.out.println("user " + order1.getUser().getId() + " is added to repository");
-        userRepository.save(order2.getUser());
-        System.out.println("user " + order2.getUser().getId() + " is added to repository");
-        Order ord1 = addOrder(order1.getUser().getId(), order1);
-        Order ord2 = addOrder(order2.getUser().getId(), order2);
-        orderRepository.saveAll(ordersList);
+
+        for (Order order : ordersList){
+            userRepository.saveAndFlush(order.getUser());
+        }
+
+        for (Order order : ordersList) {
+            //addOrder(order.getUser().getId(), order);
+            orderRepository.saveAndFlush(order);
+        }
+
         return ordersList.size() + " заказов созданы.";
+        */
     }
 
     private Object getAllOrders() throws DelException {
-        return orderRepository.findAll();
+        List<Order> read = orderRepository.findAll();
+        return read;
+        //return orderRepository.findAll();
+    }
+
+    private Object getAllUsers() throws DelException {
+        List<Credentials> read = userRepository.findAll();
+        return read;
+        //return userRepository.findAll();
     }
 
     @GetMapping(value = "/", params = {"command"})
@@ -85,6 +119,8 @@ public class Controller {
                     return getAllOrders();
                 case ("fillInDatabase"):
                     return fillInDatabase();
+                case ("readallUsers"):
+                    return getAllUsers();
                 default:
                     throw new DelException(3);
             }
