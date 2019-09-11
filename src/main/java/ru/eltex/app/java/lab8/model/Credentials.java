@@ -29,11 +29,6 @@ public class Credentials implements Serializable {
     private String email;
 
     public Credentials() {
-
-    }
-
-    public Credentials(UUID id) {
-        this.id = id;
     }
 
     public Credentials(UUID id, String surname, String name, String patronymic, String email) {

@@ -4,15 +4,14 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "shopping_cart")
+@Table(name = "shopping_carts")
 public class ShoppingCart implements Serializable {
 
     @Id
-    @GeneratedValue
+    @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -24,11 +23,7 @@ public class ShoppingCart implements Serializable {
 
     }
 
-    public ShoppingCart(UUID id) {
-        this.id = id;
-    }
-
-    public ShoppingCart(UUID id, List<Device> products, Set<UUID> ids) {
+    public ShoppingCart(UUID id, List<Device> products) {
         this.id = id;
         this.products = products;
         //this.ids = ids;

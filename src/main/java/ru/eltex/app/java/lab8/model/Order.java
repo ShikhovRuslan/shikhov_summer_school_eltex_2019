@@ -1,5 +1,7 @@
 package ru.eltex.app.java.lab8.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
 import ru.eltex.app.java.lab2.OrderStatus;
 
@@ -27,29 +29,25 @@ public class Order implements Serializable {
     @NotNull
     private long timeWaiting;
 
-//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-//    @JoinColumn(name = "cart_id")
-//    @OnDelete(action = OnDeleteAction.CASCADE)
-//    private ShoppingCart cart;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "cart_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private ShoppingCart cart;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Credentials user;
 
     public Order() {
-
     }
 
-    public Order(Credentials user) {
-        this.user = user;
-    }
-
-    public Order(UUID id, OrderStatus status, Date dateCreate, long timeWaiting, Credentials user) {
+    public Order(UUID id, OrderStatus status, Date dateCreate, long timeWaiting, ShoppingCart cart, Credentials user) {
         this.id = id;
         this.status = status;
         this.dateCreate = dateCreate;
         this.timeWaiting = timeWaiting;
-        //this.cart = cart;
+        this.cart = cart;
         this.user = user;
     }
 
@@ -84,7 +82,7 @@ public class Order implements Serializable {
     public void setTimeWaiting(long timeWaiting) {
         this.timeWaiting = timeWaiting;
     }
-/*
+
     public ShoppingCart getCart() {
         return cart;
     }
@@ -92,7 +90,7 @@ public class Order implements Serializable {
     public void setCart(ShoppingCart cart) {
         this.cart = cart;
     }
-*/
+
     public Credentials getUser() {
         return user;
     }

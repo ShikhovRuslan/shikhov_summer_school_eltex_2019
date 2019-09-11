@@ -1,7 +1,7 @@
 package ru.eltex.app.java.lab8.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -11,10 +11,10 @@ import static ru.eltex.app.java.lab1.Device.getRandom;
 
 @Entity
 //@MappedSuperclass
-public class Device implements Serializable {
+public abstract class Device implements Serializable {
 
     @Id
-    @GeneratedValue
+    @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
     @NotNull
@@ -35,14 +35,13 @@ public class Device implements Serializable {
     private String os;
 
     public Device() {
-
     }
 
-    public Device(UUID id, String name, double price, int count, String firm, String model, String os) {
+    public Device(UUID id, String name, double price, String firm, String model, String os) {
         this.id = id;
         this.name = name;
         this.price = price;
-        Device.count = count;
+        count++;
         this.firm = firm;
         this.model = model;
         this.os = os;

@@ -5,20 +5,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import ru.eltex.app.java.lab1.TypePhone;
 import ru.eltex.app.java.lab2.OrderStatus;
 import ru.eltex.app.java.lab7.DelException;
-import ru.eltex.app.java.lab8.exception.ResourceNotFoundException;
-import ru.eltex.app.java.lab8.model.Credentials;
-import ru.eltex.app.java.lab8.model.Order;
+import ru.eltex.app.java.lab8.model.*;
 import ru.eltex.app.java.lab8.repository.CredentialsRepository;
+import ru.eltex.app.java.lab8.repository.DeviceRepository;
 import ru.eltex.app.java.lab8.repository.OrderRepository;
+import ru.eltex.app.java.lab8.repository.ShoppingCartRepository;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Function;
-import java.util.function.Supplier;
 
 @RestController
 public class OrderController {
@@ -31,71 +31,39 @@ public class OrderController {
     @Autowired
     private OrderRepository orderRepository;
 
-//    @Autowired
-//    private ShoppingCartRepository cartRepository;
+    @Autowired
+    private ShoppingCartRepository cartRepository;
 
     @Autowired
     private CredentialsRepository userRepository;
 
-    public Order addOrder(UUID userId, Order order) {
-        return userRepository.findById(userId).map(new Function<Credentials, Order>() {
-            @Override
-            public Order apply(Credentials user) {
-                order.setUser(user);
-                return orderRepository.save(order);
-            }
-        }).orElseThrow(new Supplier<ResourceNotFoundException>() {
-            @Override
-            public ResourceNotFoundException get() {
-                return new ResourceNotFoundException("Пользователь с ID=" + userId + " не найден!");
-            }
-        });
-    }
+    @Autowired
+    private DeviceRepository deviceRepository;
 
     private Object fillInDatabase() {
-        Credentials user = new Credentials();
-        user.setId(UUID.randomUUID());
-        user.setEmail("qw");
-        user.setName("wq");
-        user.setPatronymic("rerer");
-        user.setSurname("rertfd");
-        userRepository.saveAndFlush(user);
+        List<Credentials> users = new ArrayList<>();
+        Credentials user1 = new Credentials(UUID.randomUUID(), "surname1", "name1",
+                "patronymic1", "name1@yandex.ru");
+        Credentials user2 = new Credentials(UUID.randomUUID(), "surname2", "name2",
+                "patronymic2", "name2@yandex.ru");
+        users.add(user1);
+        users.add(user2);
+        userRepository.saveAll(users);
 
-        Order order = new Order();
-        order.setId(UUID.randomUUID());
-        order.setUser(user);
-        order.setDateCreate(new Date(System.currentTimeMillis()));
-        order.setTimeWaiting(5L);
-        order.setStatus(OrderStatus.DONE);
+        List<Device> devices = new LinkedList<>();
+        Device phone = new Phone(TypePhone.CLASSICAL, UUID.randomUUID(), "name_phone", 14.07, "firm_phone", "model_phone", "OS_phone");
+        deviceRepository.saveAndFlush(phone);
+        devices.add(phone);
+
+        ShoppingCart cart = new ShoppingCart(UUID.randomUUID(), devices);
+        cartRepository.saveAndFlush(cart);
+
+        Order order = new Order(UUID.randomUUID(), OrderStatus.WAITING, new Date(System.currentTimeMillis()), 17L, cart, user1);
         orderRepository.saveAndFlush(order);
 
-        List<Order> orders = new ArrayList<>();
-        orders = orderRepository.findAll();
+        List<Order> orders = orderRepository.findAll();
 
         return orders;
-
-        /*
-        Order order1 = Order.generate((int) (Math.random() * 3) + 1);
-        //Order order2 = Order.generate((int) (Math.random() * 3) + 1);
-        //order2.setId(UUID.fromString("00000000-0000-0000-0000-000000000021"));
-
-        ordersList.add(order1);
-        //ordersList.add(order2);
-
-        //cartRepository.save(order1.getCart());
-        //cartRepository.save(order2.getCart());
-
-        for (Order order : ordersList){
-            userRepository.saveAndFlush(order.getUser());
-        }
-
-        for (Order order : ordersList) {
-            //addOrder(order.getUser().getId(), order);
-            orderRepository.saveAndFlush(order);
-        }
-
-        return ordersList.size() + " заказов созданы.";
-        */
     }
 
     private Object getAllOrders() throws DelException {
