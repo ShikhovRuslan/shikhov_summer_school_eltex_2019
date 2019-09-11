@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.eltex.app.java.lab1.TypePhone;
+import ru.eltex.app.java.lab1.TypeSIM;
 import ru.eltex.app.java.lab2.OrderStatus;
 import ru.eltex.app.java.lab7.DelException;
 import ru.eltex.app.java.lab8.model.*;
@@ -14,9 +15,9 @@ import ru.eltex.app.java.lab8.repository.DeviceRepository;
 import ru.eltex.app.java.lab8.repository.OrderRepository;
 import ru.eltex.app.java.lab8.repository.ShoppingCartRepository;
 
+import java.awt.*;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -42,6 +43,12 @@ public class OrderController {
 
     private Object fillInDatabase() {
         List<Credentials> users = new ArrayList<>();
+        List<Device> devices = new ArrayList<>();
+        List<Device> devices1 = new ArrayList<>();
+        List<Device> devices2 = new ArrayList<>();
+        List<ShoppingCart> carts = new ArrayList<>();
+        List<Order> orders = new ArrayList<>();
+
         Credentials user1 = new Credentials(UUID.randomUUID(), "surname1", "name1",
                 "patronymic1", "name1@yandex.ru");
         Credentials user2 = new Credentials(UUID.randomUUID(), "surname2", "name2",
@@ -50,20 +57,39 @@ public class OrderController {
         users.add(user2);
         userRepository.saveAll(users);
 
-        List<Device> devices = new LinkedList<>();
-        Device phone = new Phone(TypePhone.CLASSICAL, UUID.randomUUID(), "name_phone", 14.07, "firm_phone", "model_phone", "OS_phone");
-        deviceRepository.saveAndFlush(phone);
+        Device phone = new Phone(TypePhone.CLASSICAL,
+                UUID.randomUUID(), "name_phone", 14.07, "firm_phone",
+                "model_phone", "OS_phone");
+        Device smartphone = new Smartphone(TypeSIM.MICRO_SIM, 2,
+                UUID.randomUUID(), "name_smartphone", 28.43, "firm_smartphone",
+                "model_smartphone", "OS_smartphone");
+        Device tablet = new Tablet("vp", new Dimension(),
+                UUID.randomUUID(), "name_tablet", 28.43, "firm_tablet",
+                "model_tablet", "OS_tablet");
         devices.add(phone);
+        devices.add(smartphone);
+        devices.add(tablet);
+        devices1.add(phone);
+        devices1.add(tablet);
+        devices2.add(phone);
+        devices2.add(smartphone);
+        deviceRepository.saveAll(devices);
 
-        ShoppingCart cart = new ShoppingCart(UUID.randomUUID(), devices);
-        cartRepository.saveAndFlush(cart);
+        ShoppingCart cart1 = new ShoppingCart(UUID.randomUUID(), devices1);
+        ShoppingCart cart2 = new ShoppingCart(UUID.randomUUID(), devices2);
+        carts.add(cart1);
+        carts.add(cart2);
+        cartRepository.saveAll(carts);
 
-        Order order = new Order(UUID.randomUUID(), OrderStatus.WAITING, new Date(System.currentTimeMillis()), 17L, cart, user1);
-        orderRepository.saveAndFlush(order);
+        Order order1 = new Order(UUID.randomUUID(), OrderStatus.WAITING, new Date(System.currentTimeMillis()), 17L, cart1, user1);
+        Order order2 = new Order(UUID.randomUUID(), OrderStatus.WAITING, new Date(System.currentTimeMillis()), 17L, cart2, user2);
+        orders.add(order1);
+        orders.add(order2);
+        orderRepository.saveAll(orders);
 
-        List<Order> orders = orderRepository.findAll();
+        List<Order> ordersRead = orderRepository.findAll();
 
-        return orders;
+        return ordersRead;
     }
 
     private Object getAllOrders() throws DelException {
