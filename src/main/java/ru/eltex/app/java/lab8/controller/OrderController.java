@@ -17,7 +17,6 @@ import java.awt.*;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -40,14 +39,12 @@ public class OrderController {
     @Autowired
     private DeviceRepository deviceRepository;
 
-    private UUID checkingId(String str) throws DelException {
-        UUID id;
+    private void checkingId(String str) throws DelException {
         try {
-            id = UUID.fromString(str);
+            UUID id = UUID.fromString(str);
         } catch (IllegalArgumentException e) {
             throw new DelException(3);
         }
-        return id;
     }
 
     private Object fillInDatabase() {
@@ -104,34 +101,23 @@ public class OrderController {
         orders.add(order2);
         orderRepository.saveAll(orders);
 
-        deviceRepository.flush();
-        cartRepository.flush();
-
-
-        //return "Добавленные заказы: " + orders.size() + " ед.";
-        System.out.println("\n\n --------------------part 1----------------------\n\n");
-        return orderRepository.findAll();
-
+        return "Добавлены заказы в количестве " + orders.size() + " ед.";
     }
 
     private Object getAllOrders() {
-        System.out.println("\n\n --------------------part 2----------------------\n\n");
-        List<Device> devices = deviceRepository.findAll();
-        List<ShoppingCart> carts = cartRepository.findAll();
-        List<Credentials> users = userRepository.findAll();
-        List<Order> orders = orderRepository.findAll();
-        List<Order> ordersRead = orderRepository.findAll();
-        return ordersRead;
-    }
-
-    private Object getById(UUID orderId) {
         deviceRepository.findAll();
         cartRepository.findAll();
         userRepository.findAll();
         orderRepository.findAll();
-        List<Order> orders = orderRepository.findAll();
-        Optional<Order> order = orderRepository.findById(orderId);
-        return order;
+        return orderRepository.findAll();
+    }
+
+    private Object getOrderById(String orderId) {
+        deviceRepository.findAll();
+        cartRepository.findAll();
+        userRepository.findAll();
+        orderRepository.findAll();
+        return orderRepository.findById(orderId);
     }
 
     /*
@@ -158,14 +144,13 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET, params = {"command", "order_id"})
-    private Object show2(@RequestParam("command") String command, @RequestParam("order_id") String orderIdString) {
-        UUID orderId;
+    private Object show2(@RequestParam("command") String command, @RequestParam("order_id") String orderId) {
         logger.info(INFO_MESSAGE + "\"readById\" or \"delById\" is awaited.");
         try {
-            orderId = checkingId(orderIdString);
+            checkingId(orderId);
             switch (command) {
                 case ("readById"):
-                    return getById(orderId);
+                    return getOrderById(orderId);
                 //case ("delById"):
                 //    return delById(orderId);
                 default:
