@@ -25,7 +25,6 @@ public class OrderController {
 
     private static final String INFO_MESSAGE = "Checking the command entered by the user. ";
     private static final String ERROR_MESSAGE = "Sorry, something went wrong!";
-    private static final String DEL_MESSAGE = "0 - Заказ удалён.";
     private static final Logger logger = Logger.getLogger(ru.eltex.app.java.lab7.OrdersController.class);
 
     @Autowired
@@ -124,9 +123,32 @@ public class OrderController {
     private String delOrderById(String orderId) throws DelException {
         try {
             orderRepository.deleteById(orderId);
-            return "Заказ c ID=" + orderId + " удалён.";
+            return "0 - Заказ c ID=" + orderId + " удалён.";
         } catch (EmptyResultDataAccessException e) {
             throw new DelException(1);
+        }
+    }
+
+    private String addDeviceToCart(String cartId) {
+        String deviceId = "";
+        List<Order> orders = orderRepository.findAll();
+        boolean isDeviceAdded = false;
+        for (Order order : orders) {
+            if (order.getCart().getId().equals(cartId)) {
+                Device device = new Phone(TypePhone.FLIP,
+                        "name_new_phone", 79.23, "firm_new_phone",
+                        "model_new_phone", "OS_new_phone", new ArrayList<>());
+                order.getCart().getProducts().add(device);
+                deviceId = device.getId();
+                isDeviceAdded = true;
+                break;
+            }
+        }
+        if (isDeviceAdded) {
+            orderRepository.saveAll(orders);
+            return "Устройство с ID=" + deviceId + " добавлено в корзину с ID=" + cartId;
+        } else {
+            return "Корзина c ID=" + cartId + " не найдена!";
         }
     }
 
@@ -167,25 +189,23 @@ public class OrderController {
         }
     }
 
-    /*
-            @RequestMapping(value = "/", method = RequestMethod.GET, params = {"command", "card_id"})
-            private Object show3(@RequestParam("command") String command, @RequestParam("card_id") String cartIdString) {
-                UUID cartId;
-                logger.info(INFO_MESSAGE + "\"addToCard\" is awaited.");
-                try {
-                    cartId = checkingId(cartIdString);
-                    switch (command) {
-                        case ("addToCard"):
-                            return showAddToCart(cartId);
-                        default:
-                            throw new DelException(3);
-                    }
-                } catch (DelException e) {
-                    logger.error(ERROR_MESSAGE, e);
-                    return "Код ошибки - " + e.getErrorCode() + ". " + e.getMessage();
-                }
+    @RequestMapping(value = "/", method = RequestMethod.GET, params = {"command", "card_id"})
+    private Object show3(@RequestParam("command") String command, @RequestParam("card_id") String cartId) {
+        logger.info(INFO_MESSAGE + "\"addToCard\" is awaited.");
+        try {
+            checkingId(cartId);
+            switch (command) {
+                case ("addToCard"):
+                    return addDeviceToCart(cartId);
+                default:
+                    throw new DelException(3);
             }
-        */
+        } catch (DelException e) {
+            logger.error(ERROR_MESSAGE, e);
+            return "Код ошибки - " + e.getErrorCode() + ". " + e.getMessage();
+        }
+    }
+
     @GetMapping("*")
     private String showInvalidCommand() {
         try {
