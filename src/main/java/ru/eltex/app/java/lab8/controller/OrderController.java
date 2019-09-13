@@ -2,6 +2,7 @@ package ru.eltex.app.java.lab8.controller;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.web.bind.annotation.*;
 import ru.eltex.app.java.lab1.TypePhone;
 import ru.eltex.app.java.lab1.TypeSIM;
@@ -120,11 +121,15 @@ public class OrderController {
         return orderRepository.findById(orderId);
     }
 
-    /*
-        private String delById(UUID orderId){
-            return orderRepository.delById(orderId);
+    private String delOrderById(String orderId) throws DelException {
+        try {
+            orderRepository.deleteById(orderId);
+            return "Заказ c ID=" + orderId + " удалён.";
+        } catch (EmptyResultDataAccessException e) {
+            throw new DelException(1);
         }
-    */
+    }
+
     @GetMapping(value = "/", params = {"command"})
     public Object show1(@RequestParam("command") String command) {
         logger.info(INFO_MESSAGE + "\"readall\" or \"fillInDatabase\" is awaited.");
@@ -151,8 +156,8 @@ public class OrderController {
             switch (command) {
                 case ("readById"):
                     return getOrderById(orderId);
-                //case ("delById"):
-                //    return delById(orderId);
+                case ("delById"):
+                    return delOrderById(orderId);
                 default:
                     throw new DelException(3);
             }
