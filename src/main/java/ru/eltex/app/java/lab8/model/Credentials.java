@@ -1,6 +1,5 @@
 package ru.eltex.app.java.lab8.model;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -9,12 +8,11 @@ import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
-@Table(name = "credentials")
+@Table(name = "TABLE_CREDENTIALS")
 public class Credentials implements Serializable {
 
     @Id
-    @Column(name = "id", updatable = false, nullable = false)
-    private UUID id;
+    private String id;
 
     @NotNull
     private String surname;
@@ -31,19 +29,19 @@ public class Credentials implements Serializable {
     public Credentials() {
     }
 
-    public Credentials(UUID id, String surname, String name, String patronymic, String email) {
-        this.id = id;
+    public Credentials(String surname, String name, String patronymic, String email) {
+        id = UUID.randomUUID().toString();
         this.surname = surname;
         this.name = name;
         this.patronymic = patronymic;
         this.email = email;
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 

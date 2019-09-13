@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.awt.*;
-import java.util.UUID;
+import java.util.List;
 
 @Entity
 @Table(name = "tablets")
@@ -20,8 +20,8 @@ public class Tablet extends Device {
     }
 
     public Tablet(String videoProcessor, Dimension screenResolution,
-                  UUID id, String name, double price, String firm, String model, String os) {
-        super(id, name, price, firm, model, os);
+                  String name, double price, String firm, String model, String os, List<ShoppingCart> carts) {
+        super(name, price, firm, model, os, carts);
         this.videoProcessor = videoProcessor;
         this.screenResolution = screenResolution;
     }

@@ -2,38 +2,43 @@ package ru.eltex.app.java.lab8.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "shopping_carts")
+@Table(name = "TABLE_SHOPPING_CARTS")
 public class ShoppingCart implements Serializable {
 
     @Id
-    @Column(name = "id", updatable = false, nullable = false)
-    private UUID id;
+    private String id;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Device> products = new LinkedList<>();
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+                    //CascadeType.ALL
+            })
+    @JoinTable(name = "TABLE_CART_DEVICES",
+            joinColumns = {@JoinColumn(name = "CARTTT_IDDD")},
+            inverseJoinColumns = {@JoinColumn(name = "DEVICEEE_IDDD")})
+    private List<Device> products;
 
     //private Set<UUID> ids;
 
     public ShoppingCart() {
-
     }
 
-    public ShoppingCart(UUID id, List<Device> products) {
-        this.id = id;
+    public ShoppingCart(List<Device> products) {
+        id = UUID.randomUUID().toString();
         this.products = products;
         //this.ids = ids;
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -44,18 +49,29 @@ public class ShoppingCart implements Serializable {
     public void setProducts(List<Device> products) {
         this.products = products;
     }
-/*
-    public Set<UUID> getIds() {
-        return ids;
-    }
 
-    public void setIds(Set<UUID> ids) {
-        this.ids = ids;
-    }
-*/
+    /*
+        public Set<UUID> getIds() {
+            return ids;
+        }
+
+        public void setIds(Set<UUID> ids) {
+            this.ids = ids;
+        }
+    */
     public boolean add(Device device) {
         //ids.add(device.getId());
         return products.add(device);
+    }
+
+    public void addDevice(Device device) {
+        products.add(device);
+        device.getCarts().add(this);
+    }
+
+    public void removeDevice(Device device) {
+        products.remove(device);
+        device.getCarts().remove(this);
     }
 
 }

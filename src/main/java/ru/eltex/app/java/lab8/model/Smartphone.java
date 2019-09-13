@@ -5,7 +5,7 @@ import ru.eltex.app.java.lab1.TypeSIM;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import java.util.UUID;
+import java.util.List;
 
 @Entity
 @Table(name = "smartphones")
@@ -21,8 +21,8 @@ public class Smartphone extends Device {
     }
 
     public Smartphone(TypeSIM typeSIM, int numberSim,
-                      UUID id, String name, double price, String firm, String model, String os) {
-        super(id, name, price, firm, model, os);
+                      String name, double price, String firm, String model, String os, List<ShoppingCart> carts) {
+        super(name, price, firm, model, os, carts);
         this.typeSim = typeSIM;
         this.numberSim = numberSim;
     }

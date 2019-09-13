@@ -5,7 +5,7 @@ import ru.eltex.app.java.lab1.TypePhone;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import java.util.UUID;
+import java.util.List;
 
 @Entity
 @Table(name = "phones")
@@ -18,8 +18,8 @@ public class Phone extends Device {
     }
 
     public Phone(TypePhone type,
-                 UUID id, String name, double price, String firm, String model, String os) {
-        super(id, name, price, firm, model, os);
+                 String name, double price, String firm, String model, String os, List<ShoppingCart> carts) {
+        super(name, price, firm, model, os, carts);
         this.type = type;
     }
 

@@ -1,29 +1,24 @@
 package ru.eltex.app.java.lab8.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
-import static ru.eltex.app.java.lab1.Device.getRandom;
-
 @Entity
-//@MappedSuperclass
 public abstract class Device implements Serializable {
 
     @Id
-    @Column(name = "id", updatable = false, nullable = false)
-    private UUID id;
+    private String id;
 
     @NotNull
     private String name;
 
     @NotNull
     private double price;
-
-    private static int count;
 
     @NotNull
     private String firm;
@@ -34,24 +29,33 @@ public abstract class Device implements Serializable {
     @NotNull
     private String os;
 
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
+            mappedBy = "products")
+    @JsonIgnore
+    private List<ShoppingCart> carts;
+
     public Device() {
     }
 
-    public Device(UUID id, String name, double price, String firm, String model, String os) {
-        this.id = id;
+    public Device(String name, double price, String firm, String model, String os, List<ShoppingCart> carts) {
+        this.id = UUID.randomUUID().toString();
         this.name = name;
         this.price = price;
-        count++;
         this.firm = firm;
         this.model = model;
         this.os = os;
+        this.carts = carts;
     }
 
-    public UUID getId() {
+    public String getId() {
         return this.id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -69,14 +73,6 @@ public abstract class Device implements Serializable {
 
     public void setPrice(double price) {
         this.price = price;
-    }
-
-    public static int getCount() {
-        return count;
-    }
-
-    public static void setCount(int count) {
-        Device.count = count;
     }
 
     public String getFirm() {
@@ -103,32 +99,12 @@ public abstract class Device implements Serializable {
         this.os = os;
     }
 
-    public void create() {
-        count++;
-
-        name = getRandom(new String[]{"n1", "n2", "n3"});
-        price = getRandom(new Double[]{19.5, 0.02, 445.0});
-        firm = getRandom(new String[]{"f1", "f2", "f3"});
-        model = getRandom(new String[]{"m1", "m2", "m3"});
-        os = getRandom(new String[]{"os1", "os2", "os3"});
+    public List<ShoppingCart> getCarts() {
+        return carts;
     }
 
-    public static Device generate(int type) {
-        Device device = null;
-        switch (type) {
-            case (1):
-                device = new Phone();
-                break;
-            case (2):
-                device = new Smartphone();
-                break;
-            case (3):
-                device = new Tablet();
-                break;
-        }
-        device.create();
-        device.setId(UUID.randomUUID());
-        return device;
+    public void setCarts(List<ShoppingCart> carts) {
+        this.carts = carts;
     }
 
 }

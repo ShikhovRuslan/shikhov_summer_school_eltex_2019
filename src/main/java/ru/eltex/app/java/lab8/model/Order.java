@@ -16,8 +16,7 @@ import java.util.UUID;
 public class Order implements Serializable {
 
     @Id
-    @Column(name = "id", updatable = false, nullable = false)
-    private UUID id;
+    private String id;
 
     @NotNull
     private OrderStatus status;
@@ -42,8 +41,8 @@ public class Order implements Serializable {
     public Order() {
     }
 
-    public Order(UUID id, OrderStatus status, Date dateCreate, long timeWaiting, ShoppingCart cart, Credentials user) {
-        this.id = id;
+    public Order(OrderStatus status, Date dateCreate, long timeWaiting, ShoppingCart cart, Credentials user) {
+        id = UUID.randomUUID().toString();
         this.status = status;
         this.dateCreate = dateCreate;
         this.timeWaiting = timeWaiting;
@@ -51,11 +50,11 @@ public class Order implements Serializable {
         this.user = user;
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 
