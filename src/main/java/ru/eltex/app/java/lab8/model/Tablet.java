@@ -1,16 +1,15 @@
 package ru.eltex.app.java.lab8.model;
 
 import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.awt.*;
 import java.util.List;
 
 @Entity
-@Table(name = "tablets")
 public class Tablet extends Device {
 
-    @NotNull
+    @NotBlank
     private String videoProcessor;
 
     @NotNull
