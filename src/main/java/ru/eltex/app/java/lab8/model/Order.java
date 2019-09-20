@@ -1,8 +1,5 @@
 package ru.eltex.app.java.lab8.model;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.data.annotation.CreatedDate;
 import ru.eltex.app.java.lab2.OrderStatus;
 
 import javax.persistence.*;
@@ -21,32 +18,28 @@ public class Order implements Serializable {
     @NotNull
     private OrderStatus status;
 
-    @Column(nullable = false, updatable = false)
-    @CreatedDate
+    @NotNull
     private Date dateCreate;
 
     @NotNull
     private long timeWaiting;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "cart_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cart_id")
     private ShoppingCart cart;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
     private Credentials user;
 
     public Order() {
     }
 
-    public Order(OrderStatus status, Date dateCreate, long timeWaiting, ShoppingCart cart, Credentials user) {
+    public Order(OrderStatus status, Date dateCreate, long timeWaiting, Credentials user) {
         id = UUID.randomUUID().toString();
         this.status = status;
         this.dateCreate = dateCreate;
         this.timeWaiting = timeWaiting;
-        this.cart = cart;
         this.user = user;
     }
 
