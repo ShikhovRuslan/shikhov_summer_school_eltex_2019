@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,19 +36,18 @@ public abstract class Device implements Serializable {
             mappedBy = "products"
     )
     @JsonIgnore
-    private List<ShoppingCart> carts;
+    private List<ShoppingCart> carts = new LinkedList<>();
 
     public Device() {
     }
 
-    public Device(String name, double price, String firm, String model, String os, List<ShoppingCart> carts) {
+    public Device(String name, double price, String firm, String model, String os) {
         id = UUID.randomUUID().toString();
         this.name = name;
         this.price = price;
         this.firm = firm;
         this.model = model;
         this.os = os;
-        this.carts = carts;
     }
 
     public String getId() {
