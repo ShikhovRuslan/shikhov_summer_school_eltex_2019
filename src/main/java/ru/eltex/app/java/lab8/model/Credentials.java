@@ -3,27 +3,27 @@ package ru.eltex.app.java.lab8.model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
-@Table(name = "TABLE_CREDENTIALS")
+@Table(name = "credentials")
 public class Credentials implements Serializable {
 
     @Id
     private String id;
 
-    @NotNull
+    @NotBlank
     private String surname;
 
-    @NotNull
+    @NotBlank
     private String name;
 
-    @NotNull
+    @NotBlank
     private String patronymic;
 
-    @NotNull
+    @NotBlank
     private String email;
 
     public Credentials() {
