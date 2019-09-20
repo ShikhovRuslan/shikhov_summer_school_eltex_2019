@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.awt.*;
-import java.util.List;
 
 @Entity
 public class Tablet extends Device {
@@ -19,8 +18,8 @@ public class Tablet extends Device {
     }
 
     public Tablet(String videoProcessor, Dimension screenResolution,
-                  String name, double price, String firm, String model, String os, List<ShoppingCart> carts) {
-        super(name, price, firm, model, os, carts);
+                  String name, double price, String firm, String model, String os) {
+        super(name, price, firm, model, os);
         this.videoProcessor = videoProcessor;
         this.screenResolution = screenResolution;
     }
