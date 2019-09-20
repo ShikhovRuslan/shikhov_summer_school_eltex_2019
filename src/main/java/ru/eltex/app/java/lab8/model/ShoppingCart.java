@@ -1,37 +1,41 @@
 package ru.eltex.app.java.lab8.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
-@Table(name = "TABLE_SHOPPING_CARTS")
+@Table(name = "shopping_carts")
 public class ShoppingCart implements Serializable {
 
     @Id
     private String id;
 
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-                    //CascadeType.ALL
-            })
-    @JoinTable(name = "TABLE_CART_DEVICES",
-            joinColumns = {@JoinColumn(name = "CARTTT_IDDD")},
-            inverseJoinColumns = {@JoinColumn(name = "DEVICEEE_IDDD")})
-    private List<Device> products;
+    @OneToOne(mappedBy = "cart")
+    @JsonIgnore
+    private Order order;
 
-    //private Set<UUID> ids;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "carts_devices",
+            joinColumns = {@JoinColumn(name = "cart_id")},
+            inverseJoinColumns = {@JoinColumn(name = "device_id")}
+    )
+    private List<Device> products = new LinkedList<>();
+
+    @ElementCollection(targetClass = String.class)
+    private Set<String> ids = new HashSet<>();
 
     public ShoppingCart() {
     }
 
-    public ShoppingCart(List<Device> products) {
+    public ShoppingCart(List<Device> devices) {
         id = UUID.randomUUID().toString();
-        this.products = products;
-        //this.ids = ids;
+        for (Device device : devices) {
+            add(device);
+        }
     }
 
     public String getId() {
@@ -42,6 +46,14 @@ public class ShoppingCart implements Serializable {
         this.id = id;
     }
 
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
     public List<Device> getProducts() {
         return products;
     }
@@ -50,28 +62,17 @@ public class ShoppingCart implements Serializable {
         this.products = products;
     }
 
-    /*
-        public Set<UUID> getIds() {
-            return ids;
-        }
+    public Set<String> getIds() {
+        return ids;
+    }
 
-        public void setIds(Set<UUID> ids) {
-            this.ids = ids;
-        }
-    */
+    public void setIds(Set<String> ids) {
+        this.ids = ids;
+    }
+
     public boolean add(Device device) {
-        //ids.add(device.getId());
+        ids.add(device.getId());
         return products.add(device);
-    }
-
-    public void addDevice(Device device) {
-        products.add(device);
-        device.getCarts().add(this);
-    }
-
-    public void removeDevice(Device device) {
-        products.remove(device);
-        device.getCarts().remove(this);
     }
 
 }
