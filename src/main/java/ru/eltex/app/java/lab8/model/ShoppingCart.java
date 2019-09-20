@@ -31,13 +31,6 @@ public class ShoppingCart implements Serializable {
     public ShoppingCart() {
     }
 
-    public ShoppingCart(List<Device> devices) {
-        id = UUID.randomUUID().toString();
-        for (Device device : devices) {
-            add(device);
-        }
-    }
-
     public String getId() {
         return id;
     }
