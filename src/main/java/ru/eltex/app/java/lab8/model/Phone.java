@@ -3,12 +3,10 @@ package ru.eltex.app.java.lab8.model;
 import ru.eltex.app.java.lab1.TypePhone;
 
 import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
-@Table(name = "phones")
 public class Phone extends Device {
 
     @NotNull
