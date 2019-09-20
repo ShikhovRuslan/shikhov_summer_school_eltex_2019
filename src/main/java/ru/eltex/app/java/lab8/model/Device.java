@@ -3,6 +3,7 @@ package ru.eltex.app.java.lab8.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
@@ -14,27 +15,25 @@ public abstract class Device implements Serializable {
     @Id
     private String id;
 
-    @NotNull
+    @NotBlank
     private String name;
 
     @NotNull
     private double price;
 
-    @NotNull
+    @NotBlank
     private String firm;
 
-    @NotNull
+    @NotBlank
     private String model;
 
-    @NotNull
+    @NotBlank
     private String os;
 
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            },
-            mappedBy = "products")
+    @ManyToMany(
+            cascade = CascadeType.ALL,
+            mappedBy = "products"
+    )
     @JsonIgnore
     private List<ShoppingCart> carts;
 
@@ -42,7 +41,7 @@ public abstract class Device implements Serializable {
     }
 
     public Device(String name, double price, String firm, String model, String os, List<ShoppingCart> carts) {
-        this.id = UUID.randomUUID().toString();
+        id = UUID.randomUUID().toString();
         this.name = name;
         this.price = price;
         this.firm = firm;
