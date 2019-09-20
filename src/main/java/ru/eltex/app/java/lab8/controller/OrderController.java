@@ -68,8 +68,8 @@ public class OrderController {
         devices2.add(phone);
         devices2.add(smartphone);
 
-        ShoppingCart cart1 = new ShoppingCart();
-        ShoppingCart cart2 = new ShoppingCart();
+        ShoppingCart cart1 = new ShoppingCart(1);
+        ShoppingCart cart2 = new ShoppingCart(1);
 
         for (Device device : devices1) {
             cart1.add(device);
@@ -81,7 +81,7 @@ public class OrderController {
         }
 
         Order order1 = new Order(OrderStatus.WAITING, new Date(System.currentTimeMillis()), 17L, user1);
-        Order order2 = new Order(OrderStatus.WAITING, new Date(System.currentTimeMillis()), 17L, user2);
+        Order order2 = new Order(OrderStatus.WAITING, new Date(System.currentTimeMillis()), 29L, user2);
         order1.setId("00000000-0000-0000-0000-000000000021");
 
         order1.setCart(cart1);
